@@ -1,5 +1,5 @@
 name: giftory
-description: "A new Flutter project."
+description: "AI 선물 추천 및 기념일 비서"
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -12,10 +12,41 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
 
+  # state management
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # network
+  dio: ^5.7.0
+
+  # data
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+
+  # navigation
+  go_router: ^14.6.2
+
+  # utils
+  intl: ^0.20.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  build_runner: ^2.4.13
+  riverpod_generator: ^2.6.3
+  freezed: ^2.5.7
+  json_serializable: ^6.8.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_logo.png"
+  remove_alpha_ios: true
+  min_sdk_android: 21
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/images/app_logo.png"
 
 flutter:
   uses-material-design: true
