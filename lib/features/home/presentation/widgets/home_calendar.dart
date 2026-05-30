@@ -102,7 +102,9 @@ class HomeCalendar extends StatelessWidget {
             }
 
             final date = DateTime(focusedMonth.year, focusedMonth.month, day);
-            final isSelected = date == DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
+            final isSelected =
+                date ==
+                DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
             final isToday = date == todayNorm;
             final hasEvent = eventDays.contains(date);
 
@@ -121,16 +123,14 @@ class HomeCalendar extends StatelessWidget {
                     color: isSelected
                         ? GiftoryColor.moca700
                         : isToday
-                            ? GiftoryColor.moca200
-                            : Colors.transparent,
+                        ? GiftoryColor.moca200
+                        : Colors.transparent,
                   ),
                   alignment: Alignment.center,
                   child: Text(
                     '$day',
                     style: GiftoryTextStyle.small1.copyWith(
-                      color: isSelected
-                          ? Colors.white
-                          : textColor,
+                      color: isSelected ? Colors.white : textColor,
                       fontWeight: isSelected || isToday
                           ? FontWeight.w700
                           : FontWeight.w400,

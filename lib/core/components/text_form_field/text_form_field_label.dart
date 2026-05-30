@@ -8,7 +8,10 @@ class CustomTextFormFieldLabel extends StatelessWidget {
     this.label,
     this.labelText,
     this.labelStyle,
-  });
+  }) : assert(
+         label != null || labelText != null,
+         'Either label or labelText must be provided',
+       );
 
   final Widget? label;
   final String? labelText;

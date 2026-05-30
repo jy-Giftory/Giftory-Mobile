@@ -20,7 +20,7 @@ class GiftoryButton extends StatelessWidget {
       width: double.infinity,
       height: 52,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: GiftoryColor.moca700,
           disabledBackgroundColor: GiftoryColor.moca300,

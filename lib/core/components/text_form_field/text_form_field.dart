@@ -107,6 +107,22 @@ class _CustomTextFormFieldState
     widget.controller.addListener(_onTextChange);
   }
 
+  @override
+  void didUpdateWidget(CustomTextFormField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.focusNode != oldWidget.focusNode) {
+      oldWidget.focusNode?.removeListener(_onFocusChange);
+      _effectiveFocusNode.addListener(_onFocusChange);
+      setState(() {
+        _isFocused = _effectiveFocusNode.hasFocus;
+      }) ;
+    }
+    if (widget.controller != oldWidget.controller) {
+      oldWidget.controller.removeListener(_onTextChange);
+      widget.controller.addListener(_onTextChange);
+    }
+  }
+
   void _onFocusChange() {
     setState(() {
       _isFocused = _effectiveFocusNode.hasFocus;

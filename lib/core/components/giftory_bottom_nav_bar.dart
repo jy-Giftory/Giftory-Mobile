@@ -18,7 +18,7 @@ class GiftoryBottomNavBar extends StatelessWidget {
 
   int _currentIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
-    final index = _tabs.indexWhere((t) => location.startsWith(t.path));
+    final index = _tabs.indexWhere((t) => location == t.path || location.startsWith('${t.path}/'));
     return index == -1 ? 2 : index;
   }
 
