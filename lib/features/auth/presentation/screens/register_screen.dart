@@ -41,6 +41,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       );
       return;
     }
+    if (password != _passwordConfirmController.text) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('비밀번호가 일치하지 않습니다.')));
+      return;
+    }
     setState(() => _isLoading = true);
     try {
       await ref
@@ -54,7 +60,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('회원가입에 실패했습니다: $e')));
+        ).showSnackBar(const SnackBar(content: Text('회원가입에 실패했습니다. 잠시 후 다시 시도해주세요.')));
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
