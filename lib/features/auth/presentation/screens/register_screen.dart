@@ -33,24 +33,28 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   Future<void> _onRegister() async {
-    if (_passwordController.text != _passwordConfirmController.text) {
+    final password = _passwordController.text;
+    if (password.length < 8 ||
+        !RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('비밀번호가 일치하지 않습니다.')),
+        const SnackBar(content: Text('비밀번호는 특수문자를 포함하여 8자리 이상이어야 합니다.')),
       );
       return;
     }
     setState(() => _isLoading = true);
     try {
-      await ref.read(authNotifierProvider.notifier).register(
+      await ref
+          .read(authNotifierProvider.notifier)
+          .register(
             email: _emailController.text.trim(),
             password: _passwordController.text,
           );
       if (mounted) context.go('/home');
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('회원가입에 실패했습니다: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('회원가입에 실패했습니다: $e')));
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -166,7 +170,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   OutlineInputBorder _outlineBorder() => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: GiftoryColor.gray200),
-      );
+    borderRadius: BorderRadius.circular(8),
+    borderSide: const BorderSide(color: GiftoryColor.gray200),
+  );
 }

@@ -22,7 +22,7 @@ class HomeScreen extends ConsumerWidget {
       backgroundColor: GiftoryColor.background,
       body: asyncAnniversaries.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('오류가 발생했습니다: $e')),
+        error: (e, _) => const Center(child: Text('오류가 발생했습니다. 잠시 후 다시 시도해주세요.')),
         data: (anniversaries) {
           final eventDays = _buildEventDays(anniversaries, focusedMonth);
           final selectedAnniversaries = anniversaries
