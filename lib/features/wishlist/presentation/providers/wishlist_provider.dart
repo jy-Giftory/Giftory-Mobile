@@ -3,7 +3,7 @@ import 'package:giftory/features/gift_recommendation/domain/entities/gift_recomm
 
 part 'wishlist_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class WishlistNotifier extends _$WishlistNotifier {
   @override
   List<GiftRecommendation> build() => [];
