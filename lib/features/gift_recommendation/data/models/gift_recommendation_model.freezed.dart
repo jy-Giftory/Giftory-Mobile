@@ -5,6 +5,10 @@
 
 part of 'gift_recommendation_model.dart';
 
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
@@ -17,6 +21,7 @@ GiftRecommendationModel _$GiftRecommendationModelFromJson(
   return _GiftRecommendationModel.fromJson(json);
 }
 
+/// @nodoc
 mixin _$GiftRecommendationModel {
   String get title => throw _privateConstructorUsedError;
   int get price => throw _privateConstructorUsedError;
@@ -26,13 +31,17 @@ mixin _$GiftRecommendationModel {
   @JsonKey(name: 'search_query')
   String get searchQuery => throw _privateConstructorUsedError;
 
+  /// Serializes this GiftRecommendationModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
+  /// Create a copy of GiftRecommendationModel
+  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   $GiftRecommendationModelCopyWith<GiftRecommendationModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
+/// @nodoc
 abstract class $GiftRecommendationModelCopyWith<$Res> {
   factory $GiftRecommendationModelCopyWith(
     GiftRecommendationModel value,
@@ -48,6 +57,7 @@ abstract class $GiftRecommendationModelCopyWith<$Res> {
   });
 }
 
+/// @nodoc
 class _$GiftRecommendationModelCopyWithImpl<
   $Res,
   $Val extends GiftRecommendationModel
@@ -55,9 +65,13 @@ class _$GiftRecommendationModelCopyWithImpl<
     implements $GiftRecommendationModelCopyWith<$Res> {
   _$GiftRecommendationModelCopyWithImpl(this._value, this._then);
 
+  // ignore: unused_field
   final $Val _value;
+  // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GiftRecommendationModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -71,23 +85,23 @@ class _$GiftRecommendationModelCopyWithImpl<
       _value.copyWith(
             title: null == title
                 ? _value.title
-                : title
+                : title // ignore: cast_nullable_to_non_nullable
                       as String,
             price: null == price
                 ? _value.price
-                : price
+                : price // ignore: cast_nullable_to_non_nullable
                       as int,
             reason: null == reason
                 ? _value.reason
-                : reason
+                : reason // ignore: cast_nullable_to_non_nullable
                       as String,
             deliveryTip: null == deliveryTip
                 ? _value.deliveryTip
-                : deliveryTip
+                : deliveryTip // ignore: cast_nullable_to_non_nullable
                       as String,
             searchQuery: null == searchQuery
                 ? _value.searchQuery
-                : searchQuery
+                : searchQuery // ignore: cast_nullable_to_non_nullable
                       as String,
           )
           as $Val,
@@ -95,6 +109,7 @@ class _$GiftRecommendationModelCopyWithImpl<
   }
 }
 
+/// @nodoc
 abstract class _$$GiftRecommendationModelImplCopyWith<$Res>
     implements $GiftRecommendationModelCopyWith<$Res> {
   factory _$$GiftRecommendationModelImplCopyWith(
@@ -112,6 +127,7 @@ abstract class _$$GiftRecommendationModelImplCopyWith<$Res>
   });
 }
 
+/// @nodoc
 class __$$GiftRecommendationModelImplCopyWithImpl<$Res>
     extends
         _$GiftRecommendationModelCopyWithImpl<
@@ -124,6 +140,8 @@ class __$$GiftRecommendationModelImplCopyWithImpl<$Res>
     $Res Function(_$GiftRecommendationModelImpl) _then,
   ) : super(_value, _then);
 
+  /// Create a copy of GiftRecommendationModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -137,23 +155,23 @@ class __$$GiftRecommendationModelImplCopyWithImpl<$Res>
       _$GiftRecommendationModelImpl(
         title: null == title
             ? _value.title
-            : title
+            : title // ignore: cast_nullable_to_non_nullable
                   as String,
         price: null == price
             ? _value.price
-            : price
+            : price // ignore: cast_nullable_to_non_nullable
                   as int,
         reason: null == reason
             ? _value.reason
-            : reason
+            : reason // ignore: cast_nullable_to_non_nullable
                   as String,
         deliveryTip: null == deliveryTip
             ? _value.deliveryTip
-            : deliveryTip
+            : deliveryTip // ignore: cast_nullable_to_non_nullable
                   as String,
         searchQuery: null == searchQuery
             ? _value.searchQuery
-            : searchQuery
+            : searchQuery // ignore: cast_nullable_to_non_nullable
                   as String,
       ),
     );

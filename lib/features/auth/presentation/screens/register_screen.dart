@@ -6,6 +6,8 @@ import 'package:giftory/constants/text_style.dart';
 import 'package:giftory/core/components/text_form_field/text_form_field.dart';
 import 'package:giftory/features/auth/presentation/providers/auth_provider.dart';
 import 'package:giftory/core/components/buttons/giftory_button.dart';
+import 'package:giftory/core/theme/app_theme.dart';
+import 'package:giftory/core/components/giftory_snack_bar.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -36,15 +38,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final password = _passwordController.text;
     if (password.length < 8 ||
         !RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('비밀번호는 특수문자를 포함하여 8자리 이상이어야 합니다.')),
-      );
+      GiftorySnackBar.show(context, '비밀번호는 특수문자를 포함하여 8자리 이상이어야 합니다.');
       return;
     }
     if (password != _passwordConfirmController.text) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('비밀번호가 일치하지 않습니다.')));
+      GiftorySnackBar.show(context, '비밀번호가 일치하지 않습니다.');
       return;
     }
     setState(() => _isLoading = true);
@@ -58,9 +56,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       if (mounted) context.go('/home');
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('회원가입에 실패했습니다. 잠시 후 다시 시도해주세요.')));
+        GiftorySnackBar.show(context, '회원가입에 실패했습니다. 잠시 후 다시 시도해주세요.');
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -93,20 +89,20 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   GestureDetector(
                     onTap: () {},
                     child: Text(
                       '인증하기',
                       style: GiftoryTextStyle.small1.copyWith(
-                        color: GiftoryColor.moca700,
+                        color: context.appColors.c700,
                         decoration: TextDecoration.underline,
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               CustomTextFormField(
                 controller: _verificationController,
                 keyboardType: TextInputType.number,
@@ -116,7 +112,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   border: _outlineBorder(),
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               CustomTextFormField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
@@ -138,7 +134,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               CustomTextFormField(
                 controller: _passwordConfirmController,
                 obscureText: _obscurePasswordConfirm,
@@ -167,7 +163,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 onPressed: _isLoading ? null : _onRegister,
                 isLoading: _isLoading,
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
             ],
           ),
         ),
@@ -177,6 +173,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   OutlineInputBorder _outlineBorder() => OutlineInputBorder(
     borderRadius: BorderRadius.circular(8),
-    borderSide: const BorderSide(color: GiftoryColor.gray200),
+    borderSide: BorderSide(color: GiftoryColor.gray200),
   );
 }

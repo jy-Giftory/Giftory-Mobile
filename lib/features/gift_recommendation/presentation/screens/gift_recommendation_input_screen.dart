@@ -13,6 +13,7 @@ import 'package:giftory/features/gift_recommendation/domain/entities/occasion_ty
 import 'package:giftory/features/gift_recommendation/domain/entities/personality_type.dart';
 import 'package:giftory/features/gift_recommendation/presentation/providers/gift_recommendation_provider.dart';
 import 'package:giftory/features/gift_recommendation/presentation/widgets/interest_category_section.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class GiftRecommendationInputScreen extends ConsumerStatefulWidget {
   const GiftRecommendationInputScreen({super.key});
@@ -58,13 +59,13 @@ class _GiftRecommendationInputScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('AI 선물 추천', style: GiftoryTextStyle.header1),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                       '받는 사람의 정보를 입력하면 AI가 맞춤형 선물을 추천해드려요!\nAI의 추천은 완벽하지 않을 수 있으며, 실수를 할 수 있습니다.',
                       style: GiftoryTextStyle.small1
                           .copyWith(color: GiftoryColor.gray500),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                     CustomTextFormField(
                       controller: _recipientController,
                       decoration: InputDecoration(
@@ -77,9 +78,9 @@ class _GiftRecommendationInputScreenState
                           .read(giftRecommendationFormProvider.notifier)
                           .updateRecipient(v),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
                     _buildLabel('연령대'),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     _buildChipRow<AgeGroup>(
                       items: AgeGroup.values,
                       label: (e) => e.label,
@@ -88,9 +89,9 @@ class _GiftRecommendationInputScreenState
                           .read(giftRecommendationFormProvider.notifier)
                           .selectAgeGroup(e),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
                     _buildLabel('성별'),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     _buildChipRow<GenderType>(
                       items: GenderType.values,
                       label: (e) => e.label,
@@ -99,9 +100,9 @@ class _GiftRecommendationInputScreenState
                           .read(giftRecommendationFormProvider.notifier)
                           .selectGender(e),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
                     _buildLabel('예산'),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Row(
                       children: [
                         Expanded(
@@ -140,14 +141,14 @@ class _GiftRecommendationInputScreenState
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
                     _buildLabel('관심사'),
                     Text(
                       '중복선택이 가능하며 대분류만 선택하는 것도 가능합니다.',
                       style: GiftoryTextStyle.small2
                           .copyWith(color: GiftoryColor.gray400),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     ...kInterestCategories.map((cat) {
                       final isMain =
                           form.selectedMainCategories.contains(cat.name);
@@ -171,9 +172,9 @@ class _GiftRecommendationInputScreenState
                             : null,
                       );
                     }),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     _buildLabel('성향'),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     _buildChipRow<PersonalityType>(
                       items: PersonalityType.values,
                       label: (e) => e.label,
@@ -182,9 +183,9 @@ class _GiftRecommendationInputScreenState
                           .read(giftRecommendationFormProvider.notifier)
                           .togglePersonality(e),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
                     _buildLabel('기념일'),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Wrap(
                       spacing: 8,
                       runSpacing: 6,
@@ -199,7 +200,7 @@ class _GiftRecommendationInputScreenState
                       }).toList(),
                     ),
                     if (form.occasions.contains(OccasionType.custom)) ...[
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8),
                       TextField(
                         controller: _customOccasionController,
                         onChanged: (v) => ref
@@ -215,24 +216,24 @@ class _GiftRecommendationInputScreenState
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                             borderSide:
-                                const BorderSide(color: GiftoryColor.gray200),
+                                BorderSide(color: GiftoryColor.gray200),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                             borderSide:
-                                const BorderSide(color: GiftoryColor.gray200),
+                                BorderSide(color: GiftoryColor.gray200),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                             borderSide:
-                                const BorderSide(color: GiftoryColor.moca500),
+                                BorderSide(color: context.appColors.c500),
                           ),
                         ),
                       ),
                     ],
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
                     _buildLabel('추가 메모 (선택)'),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     TextField(
                       controller: _memoController,
                       onChanged: (v) => ref
@@ -249,21 +250,21 @@ class _GiftRecommendationInputScreenState
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: GiftoryColor.gray200),
+                              BorderSide(color: GiftoryColor.gray200),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: GiftoryColor.gray200),
+                              BorderSide(color: GiftoryColor.gray200),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: GiftoryColor.moca500),
+                              BorderSide(color: context.appColors.c500),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                   ],
                 ),
               ),
@@ -297,7 +298,7 @@ class _GiftRecommendationInputScreenState
 
   OutlineInputBorder _border() => OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: GiftoryColor.gray200),
+        borderSide: BorderSide(color: GiftoryColor.gray200),
       );
 
   Widget _buildBudgetField({
@@ -321,15 +322,15 @@ class _GiftRecommendationInputScreenState
             const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: GiftoryColor.gray200),
+          borderSide: BorderSide(color: GiftoryColor.gray200),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: GiftoryColor.gray200),
+          borderSide: BorderSide(color: GiftoryColor.gray200),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: GiftoryColor.moca500),
+          borderSide: BorderSide(color: context.appColors.c500),
         ),
       ),
     );
@@ -357,10 +358,10 @@ class _GiftRecommendationInputScreenState
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
       decoration: BoxDecoration(
-        color: selected ? GiftoryColor.moca700 : Colors.transparent,
+        color: selected ? context.appColors.c700 : Colors.transparent,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: selected ? GiftoryColor.moca700 : GiftoryColor.gray300,
+          color: selected ? context.appColors.c700 : GiftoryColor.gray300,
         ),
       ),
       child: Text(

@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:giftory/constants/color.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class StarRatingWidget extends StatelessWidget {
   final int rating;
@@ -28,7 +29,7 @@ class StarRatingWidget extends StatelessWidget {
                 onPressed: () => onChanged!(index + 1),
                 icon: Icon(
                   filled ? Icons.star_rounded : Icons.star_outline_rounded,
-                  color: filled ? GiftoryColor.moca600 : GiftoryColor.gray300,
+                  color: filled ? context.appColors.c600 : GiftoryColor.gray300,
                   size: size,
                 ),
                 padding: EdgeInsets.zero,
@@ -36,7 +37,7 @@ class StarRatingWidget extends StatelessWidget {
               )
             : Icon(
                 filled ? Icons.star_rounded : Icons.star_outline_rounded,
-                color: filled ? GiftoryColor.moca600 : GiftoryColor.gray300,
+                color: filled ? context.appColors.c600 : GiftoryColor.gray300,
                 size: size,
               );
         return index < maxRating - 1

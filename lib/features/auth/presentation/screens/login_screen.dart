@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:giftory/constants/color.dart';
+import 'package:giftory/core/components/buttons/giftory_button.dart';
+import 'package:giftory/core/components/giftory_snack_bar.dart';
 import 'package:giftory/core/components/text_form_field/text_form_field.dart';
 import 'package:giftory/features/auth/presentation/providers/auth_provider.dart';
-import 'package:giftory/core/components/buttons/giftory_button.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -36,9 +37,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (mounted) context.go('/home');
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('로그인에 실패했습니다: $e')),
-        );
+        GiftorySnackBar.show(context, '로그인에 실패했습니다: $e');
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);

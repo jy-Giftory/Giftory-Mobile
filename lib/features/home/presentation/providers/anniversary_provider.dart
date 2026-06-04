@@ -1,23 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:giftory/core/services/notification_service.dart';
 import 'package:giftory/features/home/data/datasources/anniversary_datasource.dart';
 import 'package:giftory/features/home/data/repositories/anniversary_repository_impl.dart';
 import 'package:giftory/features/home/domain/entities/anniversary.dart';
 import 'package:giftory/features/home/domain/usecases/add_anniversary_usecase.dart';
 import 'package:giftory/features/home/domain/usecases/delete_anniversary_usecase.dart';
 import 'package:giftory/features/home/domain/usecases/get_anniversaries_usecase.dart';
+import 'package:giftory/features/home/domain/usecases/update_anniversary_usecase.dart';
+import 'package:giftory/features/settings/presentation/providers/settings_provider.dart';
 
 part 'anniversary_provider.g.dart';
 
 @riverpod
-AnniversaryDatasource anniversaryDatasource(Ref ref) {
-  return AnniversaryDatasource();
-}
+AnniversaryDatasource anniversaryDatasource(Ref ref) => AnniversaryDatasource();
 
 @riverpod
-AnniversaryRepositoryImpl anniversaryRepository(Ref ref) {
-  return AnniversaryRepositoryImpl(ref.watch(anniversaryDatasourceProvider));
-}
+AnniversaryRepositoryImpl anniversaryRepository(Ref ref) =>
+    AnniversaryRepositoryImpl(ref.watch(anniversaryDatasourceProvider));
 
 @riverpod
 class AnniversaryNotifier extends _$AnniversaryNotifier {
@@ -30,13 +30,25 @@ class AnniversaryNotifier extends _$AnniversaryNotifier {
   Future<void> add(Anniversary anniversary) async {
     final repo = ref.read(anniversaryRepositoryProvider);
     await AddAnniversaryUsecase(repo).call(anniversary);
+    final settings = ref.read(settingsNotifierProvider);
+    await NotificationService.instance.scheduleForAnniversary(anniversary, settings);
+    ref.invalidateSelf();
+  }
+
+  Future<void> updateAnniversary(Anniversary anniversary) async {
+    final repo = ref.read(anniversaryRepositoryProvider);
+    await UpdateAnniversaryUsecase(repo).call(anniversary);
+    final settings = ref.read(settingsNotifierProvider);
+    await NotificationService.instance.scheduleForAnniversary(anniversary, settings);
     ref.invalidateSelf();
   }
 
   Future<void> delete(String id) async {
+    final current = state.valueOrNull ?? [];
+    state = AsyncData(current.where((a) => a.id != id).toList());
     final repo = ref.read(anniversaryRepositoryProvider);
     await DeleteAnniversaryUsecase(repo).call(id);
-    ref.invalidateSelf();
+    await NotificationService.instance.cancelForAnniversary(id);
   }
 }
 
@@ -61,11 +73,6 @@ class FocusedMonth extends _$FocusedMonth {
     return DateTime(now.year, now.month);
   }
 
-  void previous() {
-    state = DateTime(state.year, state.month - 1);
-  }
-
-  void next() {
-    state = DateTime(state.year, state.month + 1);
-  }
+  void previous() => state = DateTime(state.year, state.month - 1);
+  void next() => state = DateTime(state.year, state.month + 1);
 }

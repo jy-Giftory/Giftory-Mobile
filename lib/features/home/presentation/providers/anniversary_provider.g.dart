@@ -1,8 +1,15 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'anniversary_provider.dart';
 
-String _$anniversaryDatasourceHash() =>
-    r'36eaa719467eaf1c7c0a2325166b737d60bb91ab';
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
 
+String _$anniversaryDatasourceHash() =>
+    r'24949e83ef7a71c8e2f063eaba36a517a9f28546';
+
+/// See also [anniversaryDatasource].
 @ProviderFor(anniversaryDatasource)
 final anniversaryDatasourceProvider =
     AutoDisposeProvider<AnniversaryDatasource>.internal(
@@ -16,11 +23,13 @@ final anniversaryDatasourceProvider =
     );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AnniversaryDatasourceRef =
     AutoDisposeProviderRef<AnniversaryDatasource>;
 String _$anniversaryRepositoryHash() =>
-    r'45340ad3d54ac62162586d6ae28b860a1bfe95e4';
+    r'4c2a77a4b0fa4729d52f9561773dffcd80b3dfb7';
 
+/// See also [anniversaryRepository].
 @ProviderFor(anniversaryRepository)
 final anniversaryRepositoryProvider =
     AutoDisposeProvider<AnniversaryRepositoryImpl>.internal(
@@ -34,11 +43,13 @@ final anniversaryRepositoryProvider =
     );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AnniversaryRepositoryRef =
     AutoDisposeProviderRef<AnniversaryRepositoryImpl>;
 String _$anniversaryNotifierHash() =>
-    r'69710e6a06b89bb7e15aca18509a82ce1d109b0f';
+    r'73a61c528aac69f1c2dcaf8a91290377f770a7fd';
 
+/// See also [AnniversaryNotifier].
 @ProviderFor(AnniversaryNotifier)
 final anniversaryNotifierProvider =
     AutoDisposeAsyncNotifierProvider<
@@ -57,6 +68,7 @@ final anniversaryNotifierProvider =
 typedef _$AnniversaryNotifier = AutoDisposeAsyncNotifier<List<Anniversary>>;
 String _$selectedDayHash() => r'8c6e652ff97cc8b64d348b03403e599ba425b591';
 
+/// See also [SelectedDay].
 @ProviderFor(SelectedDay)
 final selectedDayProvider =
     AutoDisposeNotifierProvider<SelectedDay, DateTime>.internal(
@@ -70,8 +82,9 @@ final selectedDayProvider =
     );
 
 typedef _$SelectedDay = AutoDisposeNotifier<DateTime>;
-String _$focusedMonthHash() => r'5e2f423868abba3060fcdff7b3bb80afc7f445fe';
+String _$focusedMonthHash() => r'4756259768b79a696b59c2afef9a644ae118c722';
 
+/// See also [FocusedMonth].
 @ProviderFor(FocusedMonth)
 final focusedMonthProvider =
     AutoDisposeNotifierProvider<FocusedMonth, DateTime>.internal(
@@ -85,3 +98,5 @@ final focusedMonthProvider =
     );
 
 typedef _$FocusedMonth = AutoDisposeNotifier<DateTime>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:giftory/constants/color.dart';
 import 'package:giftory/constants/text_style.dart';
 import 'package:intl/intl.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class HomeCalendar extends StatelessWidget {
   final DateTime focusedMonth;
@@ -29,7 +30,7 @@ class HomeCalendar extends StatelessWidget {
         const SizedBox(height: 8),
         _buildDayHeaders(),
         const SizedBox(height: 4),
-        _buildGrid(),
+        _buildGrid(context),
       ],
     );
   }
@@ -40,17 +41,17 @@ class HomeCalendar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
-          icon: const Icon(Icons.chevron_left, size: 18),
+          icon: Icon(Icons.chevron_left, size: 18),
           onPressed: onPreviousMonth,
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
           color: GiftoryColor.gray700,
         ),
-        const SizedBox(width: 8),
+        SizedBox(width: 8),
         Text(label, style: GiftoryTextStyle.header2),
-        const SizedBox(width: 8),
+        SizedBox(width: 8),
         IconButton(
-          icon: const Icon(Icons.chevron_right, size: 18),
+          icon: Icon(Icons.chevron_right, size: 18),
           onPressed: onNextMonth,
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
@@ -81,7 +82,7 @@ class HomeCalendar extends StatelessWidget {
     );
   }
 
-  Widget _buildGrid() {
+  Widget _buildGrid(BuildContext context) {
     final firstDay = DateTime(focusedMonth.year, focusedMonth.month, 1);
     final lastDay = DateTime(focusedMonth.year, focusedMonth.month + 1, 0);
     final startOffset = firstDay.weekday % 7; // 0=Sun
@@ -108,7 +109,7 @@ class HomeCalendar extends StatelessWidget {
             final isToday = date == todayNorm;
             final hasEvent = eventDays.contains(date);
 
-            Color textColor = GiftoryColor.moca950;
+            Color textColor = context.appColors.c950;
             if (col == 0) textColor = GiftoryColor.red;
             if (col == 6) textColor = GiftoryColor.blue;
 
@@ -121,9 +122,9 @@ class HomeCalendar extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: isSelected
-                        ? GiftoryColor.moca700
+                        ? context.appColors.c700
                         : isToday
-                        ? GiftoryColor.moca200
+                        ? context.appColors.c200
                         : Colors.transparent,
                   ),
                   alignment: Alignment.center,
@@ -137,13 +138,13 @@ class HomeCalendar extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2),
                 Container(
                   width: 4,
                   height: 4,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: hasEvent ? GiftoryColor.moca500 : Colors.transparent,
+                    color: hasEvent ? context.appColors.c500 : Colors.transparent,
                   ),
                 ),
               ],

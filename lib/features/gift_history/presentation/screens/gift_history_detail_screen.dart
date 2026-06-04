@@ -6,6 +6,7 @@ import 'package:giftory/constants/text_style.dart';
 import 'package:giftory/features/gift_history/domain/entities/gift_history.dart';
 import 'package:giftory/features/gift_history/presentation/providers/gift_history_provider.dart';
 import 'package:giftory/features/gift_history/presentation/widgets/star_rating_widget.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class GiftHistoryDetailScreen extends ConsumerWidget {
   final GiftHistory history;
@@ -25,10 +26,10 @@ class GiftHistoryDetailScreen extends ConsumerWidget {
                 children: [
                   GestureDetector(
                     onTap: () => context.pop(),
-                    child: const Icon(Icons.chevron_left,
-                        size: 24, color: GiftoryColor.moca950),
+                    child: Icon(Icons.chevron_left,
+                        size: 24, color: context.appColors.c950),
                   ),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -49,7 +50,7 @@ class GiftHistoryDetailScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -63,44 +64,44 @@ class GiftHistoryDetailScreen extends ConsumerWidget {
                             style: GiftoryTextStyle.header1),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Text(
                       '${history.recipientName}   ${history.formattedDate}'
                       '${history.occasionLabel != null ? '   ${history.occasionLabel}' : ''}',
                       style: GiftoryTextStyle.small1
                           .copyWith(color: GiftoryColor.gray500),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     StarRatingWidget(rating: history.satisfaction, size: 22),
                     if (history.memo != null && history.memo!.isNotEmpty) ...[
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       Text(history.memo!, style: GiftoryTextStyle.body2),
                     ],
                     if (history.purchaseLink != null &&
                         history.purchaseLink!.isNotEmpty) ...[
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       Text(
                         history.purchaseLink!,
                         style: GiftoryTextStyle.small1
                             .copyWith(color: GiftoryColor.gray500),
                       ),
                     ],
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                     GestureDetector(
                       onTap: () async {
                         final confirmed = await showDialog<bool>(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: const Text('기록 삭제'),
-                            content: const Text('이 기록을 삭제하시겠습니까?'),
+                            title: Text('기록 삭제'),
+                            content: Text('이 기록을 삭제하시겠습니까?'),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.of(context).pop(false),
-                                child: const Text('취소'),
+                                child: Text('취소'),
                               ),
                               TextButton(
                                 onPressed: () => Navigator.of(context).pop(true),
-                                child: const Text('삭제'),
+                                child: Text('삭제'),
                               ),
                             ],
                           ),

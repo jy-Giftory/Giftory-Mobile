@@ -1,29 +1,36 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'gift_history_provider.dart';
 
-String _$giftHistoryDatasourceHash() =>
-    r'8bdf0290b3fe7972f6d4b8a6e841d7b1f2a1f2ae';
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
 
+String _$giftHistoryDatasourceHash() =>
+    r'0f25cbffd17fc88cb544950163957a61530ccd46';
+
+/// See also [giftHistoryDatasource].
 @ProviderFor(giftHistoryDatasource)
-final giftHistoryDatasourceProvider =
-    AutoDisposeProvider<GiftHistoryDatasource>.internal(
-      giftHistoryDatasource,
-      name: r'giftHistoryDatasourceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$giftHistoryDatasourceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final giftHistoryDatasourceProvider = Provider<GiftHistoryDatasource>.internal(
+  giftHistoryDatasource,
+  name: r'giftHistoryDatasourceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$giftHistoryDatasourceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
-typedef GiftHistoryDatasourceRef =
-    AutoDisposeProviderRef<GiftHistoryDatasource>;
+// ignore: unused_element
+typedef GiftHistoryDatasourceRef = ProviderRef<GiftHistoryDatasource>;
 String _$giftHistoryRepositoryHash() =>
-    r'70ba5079e13ace4bd29b1faf9ccf48daeda2c049';
+    r'a277a7e8d07b20fa1929b9e588627de717ddb8cd';
 
+/// See also [giftHistoryRepository].
 @ProviderFor(giftHistoryRepository)
 final giftHistoryRepositoryProvider =
-    AutoDisposeProvider<GiftHistoryRepositoryImpl>.internal(
+    Provider<GiftHistoryRepositoryImpl>.internal(
       giftHistoryRepository,
       name: r'giftHistoryRepositoryProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -34,17 +41,15 @@ final giftHistoryRepositoryProvider =
     );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
-typedef GiftHistoryRepositoryRef =
-    AutoDisposeProviderRef<GiftHistoryRepositoryImpl>;
+// ignore: unused_element
+typedef GiftHistoryRepositoryRef = ProviderRef<GiftHistoryRepositoryImpl>;
 String _$giftHistoryNotifierHash() =>
-    r'aba66ec6a2028318a4eaa8a17cfc1c6704a163e3';
+    r'b03ebff0967809862ad1459e81ae22b5a419e97a';
 
+/// See also [GiftHistoryNotifier].
 @ProviderFor(GiftHistoryNotifier)
 final giftHistoryNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<
-      GiftHistoryNotifier,
-      List<GiftHistory>
-    >.internal(
+    AsyncNotifierProvider<GiftHistoryNotifier, List<GiftHistory>>.internal(
       GiftHistoryNotifier.new,
       name: r'giftHistoryNotifierProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -54,4 +59,6 @@ final giftHistoryNotifierProvider =
       allTransitiveDependencies: null,
     );
 
-typedef _$GiftHistoryNotifier = AutoDisposeAsyncNotifier<List<GiftHistory>>;
+typedef _$GiftHistoryNotifier = AsyncNotifier<List<GiftHistory>>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

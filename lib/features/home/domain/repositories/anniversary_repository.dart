@@ -5,4 +5,5 @@ abstract class AnniversaryRepository {
   Future<void> add(Anniversary anniversary);
   Future<void> delete(String id);
   Future<void> update(Anniversary anniversary);
+
 }

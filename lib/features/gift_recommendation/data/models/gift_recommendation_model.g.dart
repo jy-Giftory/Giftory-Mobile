@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'gift_recommendation_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
 _$GiftRecommendationModelImpl _$$GiftRecommendationModelImplFromJson(
   Map<String, dynamic> json,

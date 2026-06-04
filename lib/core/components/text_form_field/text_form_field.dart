@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:giftory/constants/color.dart';
 import 'package:giftory/constants/text_style.dart';
 import 'package:giftory/core/components/text_form_field/text_form_field_label.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
@@ -207,8 +208,8 @@ class _CustomTextFormFieldState
           OutlineInputBorder(
             borderRadius:
             BorderRadius.circular(8),
-            borderSide: const BorderSide(
-              color: GiftoryColor.moca300,
+            borderSide: BorderSide(
+              color: context.appColors.c300,
             ),
           ),
       focusedErrorBorder:
@@ -216,7 +217,7 @@ class _CustomTextFormFieldState
           OutlineInputBorder(
             borderRadius:
             BorderRadius.circular(8),
-            borderSide: const BorderSide(
+            borderSide: BorderSide(
               color: GiftoryColor.red,
             ),
           ),
@@ -255,7 +256,7 @@ class _CustomTextFormFieldState
           textAlign: widget.textAlign,
           autofocus: widget.autofocus,
           readOnly: widget.readOnly,
-          cursorColor: GiftoryColor.moca400,
+          cursorColor: context.appColors.c400,
           obscureText: widget.obscureText,
           obscuringCharacter:
           widget.obscuringCharacter,

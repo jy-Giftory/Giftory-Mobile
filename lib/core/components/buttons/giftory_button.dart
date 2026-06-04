@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:giftory/constants/color.dart';
 import 'package:giftory/constants/text_style.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class GiftoryButton extends StatelessWidget {
   final String label;
@@ -22,15 +22,15 @@ class GiftoryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: GiftoryColor.moca700,
-          disabledBackgroundColor: GiftoryColor.moca300,
+          backgroundColor: context.appColors.c700,
+          disabledBackgroundColor: context.appColors.c300,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           elevation: 0,
         ),
         child: isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 width: 20,
                 height: 20,
                 child: CircularProgressIndicator(

@@ -6,13 +6,21 @@ import 'package:go_router/go_router.dart';
 import 'package:giftory/constants/color.dart';
 import 'package:giftory/constants/text_style.dart';
 import 'package:giftory/core/components/buttons/giftory_button.dart';
+import 'package:giftory/core/components/giftory_snack_bar.dart';
 import 'package:giftory/core/components/text_form_field/text_form_field.dart';
 import 'package:giftory/features/gift_history/domain/entities/gift_history.dart';
 import 'package:giftory/features/gift_history/presentation/providers/gift_history_provider.dart';
 import 'package:giftory/features/gift_history/presentation/widgets/star_rating_widget.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class AddGiftHistoryScreen extends ConsumerStatefulWidget {
-  const AddGiftHistoryScreen({super.key});
+  final String? prefillGiftName;
+  final int? prefillPrice;
+  const AddGiftHistoryScreen({
+    super.key,
+    this.prefillGiftName,
+    this.prefillPrice,
+  });
 
   @override
   ConsumerState<AddGiftHistoryScreen> createState() =>
@@ -53,6 +61,12 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
     _yearCtrl = FixedExtentScrollController(initialItem: _year - _startYear);
     _monthCtrl = FixedExtentScrollController(initialItem: _month - 1);
     _dayCtrl = FixedExtentScrollController(initialItem: _day - 1);
+    if (widget.prefillGiftName != null) {
+      _giftController.text = widget.prefillGiftName!;
+    }
+    if (widget.prefillPrice != null) {
+      _priceController.text = widget.prefillPrice.toString();
+    }
   }
 
   @override
@@ -101,17 +115,13 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
 
     final cleanedPrice = _priceController.text.replaceAll(',', '').replaceAll(' ', '').trim();
     if (cleanedPrice.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('가격을 입력해주세요')),
-      );
+      GiftorySnackBar.show(context, '가격을 입력해주세요');
       return;
     }
 
     final price = int.tryParse(cleanedPrice);
     if (price == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('올바른 가격을 입력해주세요')),
-      );
+      GiftorySnackBar.show(context, '올바른 가격을 입력해주세요');
       return;
     }
 
@@ -162,10 +172,10 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
                 children: [
                   GestureDetector(
                     onTap: () => context.pop(),
-                    child: const Icon(Icons.chevron_left,
-                        size: 24, color: GiftoryColor.moca950),
+                    child: Icon(Icons.chevron_left,
+                        size: 24, color: context.appColors.c950),
                   ),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -195,7 +205,7 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
                         border: _border(),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     CustomTextFormField(
                       controller: _giftController,
                       decoration: InputDecoration(
@@ -205,13 +215,13 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
                         border: _border(),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     _buildLabel('기념일'),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     _buildDatePicker(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     _buildLabel('가격'),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     TextField(
                       controller: _priceController,
                       keyboardType: TextInputType.number,
@@ -229,21 +239,21 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: GiftoryColor.moca500),
+                              BorderSide(color: context.appColors.c500),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     _buildLabel('만족도'),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     StarRatingWidget(
                       rating: _satisfaction,
                       size: 32,
                       onChanged: (v) => setState(() => _satisfaction = v),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     _buildLabel('기념일'),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Wrap(
                       spacing: 8,
                       runSpacing: 6,
@@ -258,7 +268,7 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
                       }).toList(),
                     ),
                     if (_selectedOccasion == '직접입력') ...[
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8),
                       TextField(
                         controller: _customOccasionController,
                         style: GiftoryTextStyle.small1,
@@ -274,14 +284,14 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                             borderSide:
-                                const BorderSide(color: GiftoryColor.moca500),
+                                BorderSide(color: context.appColors.c500),
                           ),
                         ),
                       ),
                     ],
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     _buildLabel('메모 (선택)'),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     TextField(
                       controller: _memoController,
                       maxLines: 4,
@@ -296,13 +306,13 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: GiftoryColor.moca500),
+                              BorderSide(color: context.appColors.c500),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     _buildLabel('구매 링크'),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     TextField(
                       controller: _linkController,
                       keyboardType: TextInputType.url,
@@ -319,11 +329,11 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide:
-                              const BorderSide(color: GiftoryColor.moca500),
+                              BorderSide(color: context.appColors.c500),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                   ],
                 ),
               ),
@@ -347,16 +357,16 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
 
   OutlineInputBorder _border() => OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: GiftoryColor.gray200),
+        borderSide: BorderSide(color: GiftoryColor.gray200),
       );
 
   Widget _chip(String text, bool selected) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: selected ? GiftoryColor.moca700 : Colors.transparent,
+          color: selected ? context.appColors.c700 : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-              color: selected ? GiftoryColor.moca700 : GiftoryColor.gray300),
+              color: selected ? context.appColors.c700 : GiftoryColor.gray300),
         ),
         child: Text(text,
             style: GiftoryTextStyle.small1.copyWith(
@@ -380,7 +390,7 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
               height: 36,
               margin: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
-                color: GiftoryColor.moca700,
+                color: context.appColors.c700,
                 borderRadius: BorderRadius.circular(8),
               ),
             ),

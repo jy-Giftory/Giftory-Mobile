@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:giftory/constants/color.dart';
 import 'package:giftory/constants/text_style.dart';
 import 'package:giftory/features/gift_recommendation/domain/entities/interest_category.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class InterestCategorySection extends StatelessWidget {
   final InterestCategory category;
@@ -42,17 +43,17 @@ class InterestCategorySection extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: isMainSelected
-                        ? GiftoryColor.moca600
+                        ? context.appColors.c600
                         : Colors.transparent,
                     border: Border.all(
                       color: isMainSelected
-                          ? GiftoryColor.moca600
+                          ? context.appColors.c600
                           : GiftoryColor.gray300,
                       width: 1.5,
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Text(
                   category.name,
                   style: GiftoryTextStyle.body2
@@ -62,18 +63,18 @@ class InterestCategorySection extends StatelessWidget {
             ),
           ),
           if (isMainSelected) ...[
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             if (_isCustomCategory)
-              _buildCustomInput()
+              _buildCustomInput(context)
             else if (category.subCategories.isNotEmpty)
-              _buildSubChips(),
+              _buildSubChips(context),
           ],
         ],
       ),
     );
   }
 
-  Widget _buildSubChips() {
+  Widget _buildSubChips(BuildContext context) {
     return Wrap(
       spacing: 8,
       runSpacing: 6,
@@ -85,11 +86,11 @@ class InterestCategorySection extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: isSelected ? GiftoryColor.moca700 : Colors.transparent,
+              color: isSelected ? context.appColors.c700 : Colors.transparent,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: isSelected
-                    ? GiftoryColor.moca700
+                    ? context.appColors.c700
                     : GiftoryColor.gray300,
               ),
             ),
@@ -105,7 +106,7 @@ class InterestCategorySection extends StatelessWidget {
     );
   }
 
-  Widget _buildCustomInput() {
+  Widget _buildCustomInput(BuildContext context) {
     return TextField(
       onChanged: onCustomChanged,
       style: GiftoryTextStyle.small1,
@@ -117,15 +118,15 @@ class InterestCategorySection extends StatelessWidget {
             const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: GiftoryColor.gray200),
+          borderSide: BorderSide(color: GiftoryColor.gray200),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: GiftoryColor.gray200),
+          borderSide: BorderSide(color: GiftoryColor.gray200),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: GiftoryColor.moca500),
+          borderSide: BorderSide(color: context.appColors.c500),
         ),
       ),
     );

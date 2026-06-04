@@ -4,7 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:giftory/constants/color.dart';
 import 'package:giftory/constants/text_style.dart';
 import 'package:giftory/core/components/buttons/giftory_button.dart';
+import 'package:giftory/core/components/giftory_snack_bar.dart';
+import 'package:giftory/core/services/notification_service.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 import 'package:giftory/features/auth/presentation/providers/auth_provider.dart';
+import 'package:giftory/features/home/presentation/providers/anniversary_provider.dart';
 import 'package:giftory/features/settings/domain/entities/app_settings.dart';
 import 'package:giftory/features/settings/presentation/providers/settings_provider.dart';
 
@@ -29,71 +33,76 @@ class SettingsScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('설정', style: GiftoryTextStyle.header1),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text('알림 및 앱 환경을 설정하세요.',
                         style: GiftoryTextStyle.small1
                             .copyWith(color: GiftoryColor.gray500)),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                     Row(
                       children: [
-                        const Icon(Icons.notifications_outlined,
-                            color: GiftoryColor.moca700, size: 20),
-                        const SizedBox(width: 6),
+                        Icon(Icons.notifications_outlined,
+                            color: context.appColors.c700, size: 20),
+                        SizedBox(width: 6),
                         Text('알림 설정',
                             style: GiftoryTextStyle.body2
                                 .copyWith(fontWeight: FontWeight.w700)),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: GiftoryColor.moca50,
+                        color: context.appColors.c50,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(Icons.info_outline,
-                              size: 14, color: GiftoryColor.moca600),
-                          const SizedBox(width: 6),
+                          Icon(Icons.info_outline,
+                              size: 14, color: context.appColors.c600),
+                          SizedBox(width: 6),
                           Expanded(
                             child: Text(
                               '기념일 1주일 전 알림 (필수): 중요한 기념일을 놓치지 않기 위해 1주일 전에 미리 알려드립니다.',
                               style: GiftoryTextStyle.small1
-                                  .copyWith(color: GiftoryColor.moca700),
+                                  .copyWith(color: context.appColors.c700),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     _buildToggleRow(
+                      context,
                       '한 달 전 알림',
                       settings.notifyMonthBefore,
                       (v) => notifier.update(
                           settings.copyWith(notifyMonthBefore: v)),
                     ),
                     _buildToggleRow(
+                      context,
                       '2주 전 알림',
                       settings.notifyTwoWeeksBefore,
                       (v) => notifier.update(
                           settings.copyWith(notifyTwoWeeksBefore: v)),
                     ),
                     _buildToggleRow(
+                      context,
                       '하루 전 알림',
                       settings.notifyDayBefore,
                       (v) => notifier.update(
                           settings.copyWith(notifyDayBefore: v)),
                     ),
                     _buildToggleRow(
+                      context,
                       '당일 알림',
                       settings.notifyOnDay,
                       (v) => notifier
                           .update(settings.copyWith(notifyOnDay: v)),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     _buildToggleRow(
+                      context,
                       '이메일 알림 받기',
                       settings.emailNotification,
                       (v) => notifier.update(
@@ -101,11 +110,11 @@ class SettingsScreen extends ConsumerWidget {
                       subtitle:
                           '이메일 알림은 기본적으로 해지되어 있으며 선택 시 활성화 됩니다.',
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                     Text('테마 변경',
                         style: GiftoryTextStyle.body2
                             .copyWith(fontWeight: FontWeight.w700)),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     Row(
                       children: [
                         _ThemeCard(
@@ -115,7 +124,7 @@ class SettingsScreen extends ConsumerWidget {
                           onTap: () => notifier.update(
                               settings.copyWith(themeType: ThemeType.moca)),
                         ),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12),
                         _ThemeCard(
                           label: 'OLIVE',
                           color: GiftoryColor.olive500,
@@ -125,14 +134,26 @@ class SettingsScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
                   ],
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-              child: GiftoryButton(label: '저장하기', onPressed: () {}),
+              child: GiftoryButton(
+                label: '저장하기',
+                onPressed: () async {
+                  final anniversaries = ref
+                      .read(anniversaryNotifierProvider)
+                      .valueOrNull ?? [];
+                  await NotificationService.instance
+                      .rescheduleAll(anniversaries, settings);
+                  if (context.mounted) {
+                    GiftorySnackBar.show(context, '설정이 저장됐습니다.');
+                  }
+                },
+              ),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(
@@ -169,6 +190,7 @@ class SettingsScreen extends ConsumerWidget {
   }
 
   Widget _buildToggleRow(
+    BuildContext context,
     String title,
     bool value,
     ValueChanged<bool> onChanged, {
@@ -195,8 +217,8 @@ class SettingsScreen extends ConsumerWidget {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeThumbColor: GiftoryColor.moca700,
-            activeTrackColor: GiftoryColor.moca300,
+            activeThumbColor: context.appColors.c700,
+            activeTrackColor: context.appColors.c300,
           ),
         ],
       ),
@@ -228,7 +250,7 @@ class SettingsScreen extends ConsumerWidget {
             },
             child: Text('확인',
                 style: GiftoryTextStyle.small1
-                    .copyWith(color: GiftoryColor.moca700,
+                    .copyWith(color: context.appColors.c700,
                         fontWeight: FontWeight.w700)),
           ),
         ],
@@ -296,7 +318,7 @@ class _ThemeCard extends StatelessWidget {
           color: GiftoryColor.background,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? GiftoryColor.moca700 : GiftoryColor.gray200,
+            color: isSelected ? color : GiftoryColor.gray200,
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -311,9 +333,7 @@ class _ThemeCard extends StatelessWidget {
             Text(label,
                 style: GiftoryTextStyle.small1.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: isSelected
-                      ? GiftoryColor.moca700
-                      : GiftoryColor.gray500,
+                  color: isSelected ? color : GiftoryColor.gray500,
                 )),
           ],
         ),

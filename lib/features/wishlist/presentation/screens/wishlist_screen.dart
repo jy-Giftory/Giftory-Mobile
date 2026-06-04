@@ -5,6 +5,7 @@ import 'package:giftory/constants/color.dart';
 import 'package:giftory/constants/text_style.dart';
 import 'package:giftory/features/gift_recommendation/domain/entities/gift_recommendation.dart';
 import 'package:giftory/features/wishlist/presentation/providers/wishlist_provider.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class WishlistScreen extends ConsumerWidget {
   const WishlistScreen({super.key});
@@ -25,7 +26,7 @@ class WishlistScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('위시리스트', style: GiftoryTextStyle.header1),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     '총 ${items.length}개의 아이템',
                     style: GiftoryTextStyle.small1
@@ -46,7 +47,7 @@ class WishlistScreen extends ConsumerWidget {
                   : ListView.separated(
                       padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                       itemCount: items.length,
-                      separatorBuilder: (context, index) => const SizedBox(height: 12),
+                      separatorBuilder: (context, index) => SizedBox(height: 12),
                       itemBuilder: (_, index) => _WishlistItemCard(
                         item: items[index],
                         onRemove: () => ref
@@ -90,9 +91,9 @@ class _WishlistItemCard extends StatelessWidget {
                     Text(
                       item.title,
                       style: GiftoryTextStyle.header1
-                          .copyWith(color: GiftoryColor.moca700),
+                          .copyWith(color: context.appColors.c700),
                     ),
-                    const SizedBox(height: 2),
+                    SizedBox(height: 2),
                     Text(
                       item.formattedPrice,
                       style: GiftoryTextStyle.body2
@@ -101,14 +102,14 @@ class _WishlistItemCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(Icons.favorite, color: GiftoryColor.red, size: 22),
+              Icon(Icons.favorite, color: GiftoryColor.red, size: 22),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           _buildSection('추천 이유', item.reason),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           _buildSection('전달 팁', item.deliveryTip),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Row(
             children: [
               Expanded(
@@ -117,7 +118,7 @@ class _WishlistItemCard extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () => _launchUrl(item.naverShoppingUrl),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: GiftoryColor.moca700,
+                      backgroundColor: context.appColors.c700,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -133,18 +134,18 @@ class _WishlistItemCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               GestureDetector(
                 onTap: onRemove,
                 child: Container(
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: GiftoryColor.moca50,
+                    color: context.appColors.c50,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: GiftoryColor.moca200),
+                    border: Border.all(color: context.appColors.c200),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.delete_outline,
                     color: GiftoryColor.red,
                     size: 20,
@@ -165,7 +166,7 @@ class _WishlistItemCard extends StatelessWidget {
         Text(title,
             style: GiftoryTextStyle.small1
                 .copyWith(fontWeight: FontWeight.w700)),
-        const SizedBox(height: 4),
+        SizedBox(height: 4),
         Text(content, style: GiftoryTextStyle.small1),
       ],
     );

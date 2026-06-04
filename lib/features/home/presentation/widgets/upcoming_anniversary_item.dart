@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:giftory/constants/color.dart';
 import 'package:giftory/constants/text_style.dart';
 import 'package:giftory/features/home/domain/entities/anniversary.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class UpcomingAnniversaryItem extends StatelessWidget {
   final Anniversary anniversary;
@@ -28,13 +29,13 @@ class UpcomingAnniversaryItem extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: GiftoryColor.moca100,
+              color: context.appColors.c100,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
               anniversary.dDayLabel,
               style: GiftoryTextStyle.small1.copyWith(
-                color: GiftoryColor.moca800,
+                color: context.appColors.c800,
                 fontWeight: FontWeight.w700,
               ),
             ),

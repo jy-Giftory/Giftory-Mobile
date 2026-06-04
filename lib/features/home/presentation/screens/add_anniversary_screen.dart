@@ -4,13 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:giftory/constants/color.dart';
 import 'package:giftory/constants/text_style.dart';
 import 'package:giftory/core/components/text_form_field/text_form_field.dart';
+import 'package:giftory/core/theme/app_theme.dart';
+import 'package:giftory/core/components/buttons/giftory_button.dart';
 import 'package:giftory/features/home/domain/entities/anniversary.dart';
 import 'package:giftory/features/home/domain/entities/repeat_type.dart';
 import 'package:giftory/features/home/presentation/providers/anniversary_provider.dart';
-import 'package:giftory/core/components/buttons/giftory_button.dart';
 
 class AddAnniversaryScreen extends ConsumerStatefulWidget {
-  const AddAnniversaryScreen({super.key});
+  final Anniversary? initial;
+  const AddAnniversaryScreen({super.key, this.initial});
 
   @override
   ConsumerState<AddAnniversaryScreen> createState() =>
@@ -18,8 +20,8 @@ class AddAnniversaryScreen extends ConsumerStatefulWidget {
 }
 
 class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
-  final _titleController = TextEditingController();
-  RepeatType _selectedRepeatType = RepeatType.yearly;
+  late final TextEditingController _titleController;
+  late RepeatType _selectedRepeatType;
 
   late int _selectedYear;
   late int _selectedMonth;
@@ -32,13 +34,26 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
   late final FixedExtentScrollController _monthController;
   late final FixedExtentScrollController _dayController;
 
+  bool get _isEditing => widget.initial != null;
+
   @override
   void initState() {
     super.initState();
-    final selected = ref.read(selectedDayProvider);
-    _selectedYear = selected.year.clamp(_startYear, _endYear);
-    _selectedMonth = selected.month;
-    _selectedDay = selected.day;
+    final init = widget.initial;
+    if (init != null) {
+      _titleController = TextEditingController(text: init.title);
+      _selectedRepeatType = init.repeatType;
+      _selectedYear = init.originalDate.year.clamp(_startYear, _endYear);
+      _selectedMonth = init.originalDate.month;
+      _selectedDay = init.originalDate.day;
+    } else {
+      _titleController = TextEditingController();
+      _selectedRepeatType = RepeatType.yearly;
+      final selected = ref.read(selectedDayProvider);
+      _selectedYear = selected.year.clamp(_startYear, _endYear);
+      _selectedMonth = selected.month;
+      _selectedDay = selected.day;
+    }
 
     _yearController = FixedExtentScrollController(
       initialItem: _selectedYear - _startYear,
@@ -85,18 +100,24 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
     });
   }
 
-  Future<void> _onAdd() async {
+  Future<void> _onSave() async {
     final title = _titleController.text.trim();
     if (title.isEmpty) return;
 
     final anniversary = Anniversary(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      id: widget.initial?.id ??
+          DateTime.now().millisecondsSinceEpoch.toString(),
       title: title,
       originalDate: DateTime(_selectedYear, _selectedMonth, _selectedDay),
       repeatType: _selectedRepeatType,
     );
 
-    await ref.read(anniversaryNotifierProvider.notifier).add(anniversary);
+    final notifier = ref.read(anniversaryNotifierProvider.notifier);
+    if (_isEditing) {
+      await notifier.updateAnniversary(anniversary);
+    } else {
+      await notifier.add(anniversary);
+    }
     if (mounted) Navigator.of(context).pop();
   }
 
@@ -107,7 +128,7 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildDragHandle(),
+          _buildDragHandle(context),
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
@@ -116,9 +137,9 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
                 children: [
                   _buildTitleField(),
                   const SizedBox(height: 20),
-                  _buildRepeatTypeSection(),
+                  _buildRepeatTypeSection(context),
                   const SizedBox(height: 20),
-                  _buildDateSection(),
+                  _buildDateSection(context),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -130,7 +151,7 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
     );
   }
 
-  Widget _buildDragHandle() {
+  Widget _buildDragHandle(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Center(
@@ -164,14 +185,13 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
     );
   }
 
-  Widget _buildRepeatTypeSection() {
+  Widget _buildRepeatTypeSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '반복 주기',
-          style: GiftoryTextStyle.small1.copyWith(color: GiftoryColor.gray950),
-        ),
+        Text('반복 주기',
+            style: GiftoryTextStyle.small1.copyWith(
+                color: GiftoryColor.gray950)),
         const SizedBox(height: 8),
         Row(
           children: RepeatType.values.map((type) {
@@ -182,22 +202,24 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
                 onTap: () => setState(() => _selectedRepeatType = type),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
+                      horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: selected ? GiftoryColor.moca700 : Colors.transparent,
+                    color: selected
+                        ? context.appColors.c700
+                        : Colors.transparent,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
                       color: selected
-                          ? GiftoryColor.moca700
+                          ? context.appColors.c700
                           : GiftoryColor.gray300,
                     ),
                   ),
                   child: Text(
                     type.label,
                     style: GiftoryTextStyle.small1.copyWith(
-                      color: selected ? Colors.white : GiftoryColor.gray600,
+                      color: selected
+                          ? Colors.white
+                          : GiftoryColor.gray600,
                     ),
                   ),
                 ),
@@ -209,21 +231,20 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
     );
   }
 
-  Widget _buildDateSection() {
+  Widget _buildDateSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '날짜',
-          style: GiftoryTextStyle.small1.copyWith(color: GiftoryColor.gray950),
-        ),
+        Text('날짜',
+            style: GiftoryTextStyle.small1.copyWith(
+                color: GiftoryColor.gray950)),
         const SizedBox(height: 8),
-        _buildDatePicker(),
+        _buildDatePicker(context),
       ],
     );
   }
 
-  Widget _buildDatePicker() {
+  Widget _buildDatePicker(BuildContext context) {
     final years =
         List.generate(_endYear - _startYear + 1, (i) => _startYear + i);
     final months = List.generate(12, (i) => i + 1);
@@ -241,7 +262,7 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
               height: 36,
               margin: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
-                color: GiftoryColor.moca700,
+                color: context.appColors.c700,
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
@@ -256,6 +277,7 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
                   selected: _selectedYear,
                   unit: '년',
                   onChanged: _onYearChanged,
+                  context: context,
                 ),
               ),
               Expanded(
@@ -266,6 +288,7 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
                   selected: _selectedMonth,
                   unit: '월',
                   onChanged: _onMonthChanged,
+                  context: context,
                 ),
               ),
               Expanded(
@@ -276,6 +299,7 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
                   selected: _selectedDay,
                   unit: '일',
                   onChanged: (v) => setState(() => _selectedDay = v),
+                  context: context,
                 ),
               ),
             ],
@@ -291,6 +315,7 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
     required int selected,
     required String unit,
     required ValueChanged<int> onChanged,
+    required BuildContext context,
   }) {
     return CupertinoPicker(
       scrollController: controller,
@@ -307,15 +332,20 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
               Text(
                 '$item',
                 style: GiftoryTextStyle.body2.copyWith(
-                  color: isSelected ? Colors.white : GiftoryColor.gray400,
-                  fontWeight:
-                      isSelected ? FontWeight.w700 : FontWeight.w400,
+                  color: isSelected
+                      ? Colors.white
+                      : GiftoryColor.gray400,
+                  fontWeight: isSelected
+                      ? FontWeight.w700
+                      : FontWeight.w400,
                 ),
               ),
               Text(
                 unit,
                 style: GiftoryTextStyle.small1.copyWith(
-                  color: isSelected ? Colors.white : GiftoryColor.gray400,
+                  color: isSelected
+                      ? Colors.white
+                      : GiftoryColor.gray400,
                 ),
               ),
             ],
@@ -335,8 +365,8 @@ class _AddAnniversaryScreenState extends ConsumerState<AddAnniversaryScreen> {
         MediaQuery.of(context).padding.bottom + 16,
       ),
       child: GiftoryButton(
-        label: '기념일 추가',
-        onPressed: _onAdd,
+        label: _isEditing ? '수정 완료' : '기념일 추가',
+        onPressed: _onSave,
       ),
     );
   }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:giftory/constants/color.dart';
 import 'package:giftory/constants/text_style.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 import 'package:giftory/features/gift_recommendation/domain/entities/gift_recommendation.dart';
 
 class GiftRecommendationCard extends StatelessWidget {
@@ -31,16 +33,16 @@ class GiftRecommendationCard extends StatelessWidget {
         children: [
           Text(item.title,
               style: GiftoryTextStyle.header1
-                  .copyWith(color: GiftoryColor.moca950)),
-          const SizedBox(height: 4),
+                  .copyWith(color: context.appColors.c950)),
+          SizedBox(height: 4),
           Text(item.formattedPrice,
               style: GiftoryTextStyle.body2
                   .copyWith(fontWeight: FontWeight.w700)),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           _buildSection('추천 이유', item.reason),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           _buildSection('전달 팁', item.deliveryTip),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -55,13 +57,34 @@ class GiftRecommendationCard extends StatelessWidget {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: onWishlistToggle,
-                child: Icon(
-                  isInWishlist ? Icons.favorite : Icons.favorite_border,
-                  color: isInWishlist ? GiftoryColor.red : GiftoryColor.gray400,
-                  size: 22,
-                ),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => context.push(
+                      '/gift-history/add',
+                      extra: {'giftName': item.title, 'price': item.price},
+                    ),
+                    child: Text(
+                      '기록하기',
+                      style: GiftoryTextStyle.small1.copyWith(
+                        color: context.appColors.c600,
+                        decoration: TextDecoration.underline,
+                        decorationColor: context.appColors.c600,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  GestureDetector(
+                    onTap: onWishlistToggle,
+                    child: Icon(
+                      isInWishlist ? Icons.favorite : Icons.favorite_border,
+                      color: isInWishlist
+                          ? GiftoryColor.red
+                          : GiftoryColor.gray400,
+                      size: 22,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -77,7 +100,7 @@ class GiftRecommendationCard extends StatelessWidget {
         Text(title,
             style: GiftoryTextStyle.small1
                 .copyWith(fontWeight: FontWeight.w700)),
-        const SizedBox(height: 4),
+        SizedBox(height: 4),
         Text(content, style: GiftoryTextStyle.small1),
       ],
     );

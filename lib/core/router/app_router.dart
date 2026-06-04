@@ -52,7 +52,14 @@ final appRouter = GoRouter(
           routes: [
             GoRoute(
               path: 'add',
-              builder: (context, state) => const AddGiftHistoryScreen(),
+              builder: (context, state) {
+                final extra =
+                    state.extra as Map<String, dynamic>?;
+                return AddGiftHistoryScreen(
+                  prefillGiftName: extra?['giftName'] as String?,
+                  prefillPrice: extra?['price'] as int?,
+                );
+              },
             ),
             GoRoute(
               path: 'detail',

@@ -1,5 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'anniversary_model.dart';
 
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
 _$AnniversaryModelImpl _$$AnniversaryModelImplFromJson(
   Map<String, dynamic> json,

@@ -6,6 +6,7 @@ import 'package:giftory/constants/text_style.dart';
 import 'package:giftory/features/gift_history/domain/entities/gift_history.dart';
 import 'package:giftory/features/gift_history/presentation/providers/gift_history_provider.dart';
 import 'package:giftory/features/gift_history/presentation/widgets/star_rating_widget.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class GiftHistoryScreen extends ConsumerWidget {
   const GiftHistoryScreen({super.key});
@@ -33,7 +34,7 @@ class GiftHistoryScreen extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('히스토리', style: GiftoryTextStyle.header1),
-                          const SizedBox(height: 4),
+                          SizedBox(height: 4),
                           Text(
                             '주었던 선물과 반응을 기록하세요.',
                             style: GiftoryTextStyle.small1
@@ -48,7 +49,7 @@ class GiftHistoryScreen extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 14, vertical: 7),
                         decoration: BoxDecoration(
-                          color: GiftoryColor.moca700,
+                          color: context.appColors.c700,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
@@ -76,8 +77,8 @@ class GiftHistoryScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildAverageSatisfaction(histories),
-                            const SizedBox(height: 16),
+                            _buildAverageSatisfaction(context, histories),
+                            SizedBox(height: 16),
                             ...histories.map((h) => Padding(
                                   padding: const EdgeInsets.only(bottom: 12),
                                   child: _HistoryCard(
@@ -98,7 +99,7 @@ class GiftHistoryScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAverageSatisfaction(List<GiftHistory> histories) {
+  Widget _buildAverageSatisfaction(BuildContext context, List<GiftHistory> histories) {
     final avg = histories.isEmpty
         ? 0.0
         : histories.map((h) => h.satisfaction).reduce((a, b) => a + b) /
@@ -107,14 +108,14 @@ class GiftHistoryScreen extends ConsumerWidget {
       children: [
         Text('평균 만족도', style: GiftoryTextStyle.small1
             .copyWith(color: GiftoryColor.gray600)),
-        const SizedBox(width: 12),
-        const Icon(Icons.star_rounded, color: GiftoryColor.moca600, size: 20),
-        const SizedBox(width: 4),
+        SizedBox(width: 12),
+        Icon(Icons.star_rounded, color: context.appColors.c600, size: 20),
+        SizedBox(width: 4),
         Text(
           '${avg.toStringAsFixed(1)} /5.0',
           style: GiftoryTextStyle.small1.copyWith(
             fontWeight: FontWeight.w700,
-            color: GiftoryColor.moca700,
+            color: context.appColors.c700,
           ),
         ),
       ],
@@ -157,17 +158,17 @@ class _HistoryCard extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.w700)),
               ],
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: 4),
             Text(
               '${history.recipientName}   ${history.formattedDate}'
               '${history.occasionLabel != null ? '   ${history.occasionLabel}' : ''}',
               style: GiftoryTextStyle.small1
                   .copyWith(color: GiftoryColor.gray500),
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6),
             StarRatingWidget(rating: history.satisfaction, size: 18),
             if (history.memo != null && history.memo!.isNotEmpty) ...[
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
               Text(
                 history.memo!,
                 style: GiftoryTextStyle.small1,
@@ -177,7 +178,7 @@ class _HistoryCard extends StatelessWidget {
             ],
             if (history.purchaseLink != null &&
                 history.purchaseLink!.isNotEmpty) ...[
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
               Text(
                 history.purchaseLink!,
                 style: GiftoryTextStyle.small1

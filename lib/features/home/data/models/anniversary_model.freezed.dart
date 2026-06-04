@@ -1,4 +1,13 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
 part of 'anniversary_model.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
 
 T _$identity<T>(T value) => value;
 
@@ -10,20 +19,24 @@ AnniversaryModel _$AnniversaryModelFromJson(Map<String, dynamic> json) {
   return _AnniversaryModel.fromJson(json);
 }
 
+/// @nodoc
 mixin _$AnniversaryModel {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String get originalDate =>
-      throw _privateConstructorUsedError;
+  String get originalDate => throw _privateConstructorUsedError;
   String get repeatType => throw _privateConstructorUsedError;
 
+  /// Serializes this AnniversaryModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
+  /// Create a copy of AnniversaryModel
+  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   $AnniversaryModelCopyWith<AnniversaryModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
+/// @nodoc
 abstract class $AnniversaryModelCopyWith<$Res> {
   factory $AnniversaryModelCopyWith(
     AnniversaryModel value,
@@ -33,13 +46,18 @@ abstract class $AnniversaryModelCopyWith<$Res> {
   $Res call({String id, String title, String originalDate, String repeatType});
 }
 
+/// @nodoc
 class _$AnniversaryModelCopyWithImpl<$Res, $Val extends AnniversaryModel>
     implements $AnniversaryModelCopyWith<$Res> {
   _$AnniversaryModelCopyWithImpl(this._value, this._then);
 
+  // ignore: unused_field
   final $Val _value;
+  // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AnniversaryModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -52,19 +70,19 @@ class _$AnniversaryModelCopyWithImpl<$Res, $Val extends AnniversaryModel>
       _value.copyWith(
             id: null == id
                 ? _value.id
-                : id
+                : id // ignore: cast_nullable_to_non_nullable
                       as String,
             title: null == title
                 ? _value.title
-                : title
+                : title // ignore: cast_nullable_to_non_nullable
                       as String,
             originalDate: null == originalDate
                 ? _value.originalDate
-                : originalDate
+                : originalDate // ignore: cast_nullable_to_non_nullable
                       as String,
             repeatType: null == repeatType
                 ? _value.repeatType
-                : repeatType
+                : repeatType // ignore: cast_nullable_to_non_nullable
                       as String,
           )
           as $Val,
@@ -72,6 +90,7 @@ class _$AnniversaryModelCopyWithImpl<$Res, $Val extends AnniversaryModel>
   }
 }
 
+/// @nodoc
 abstract class _$$AnniversaryModelImplCopyWith<$Res>
     implements $AnniversaryModelCopyWith<$Res> {
   factory _$$AnniversaryModelImplCopyWith(
@@ -83,6 +102,7 @@ abstract class _$$AnniversaryModelImplCopyWith<$Res>
   $Res call({String id, String title, String originalDate, String repeatType});
 }
 
+/// @nodoc
 class __$$AnniversaryModelImplCopyWithImpl<$Res>
     extends _$AnniversaryModelCopyWithImpl<$Res, _$AnniversaryModelImpl>
     implements _$$AnniversaryModelImplCopyWith<$Res> {
@@ -91,6 +111,8 @@ class __$$AnniversaryModelImplCopyWithImpl<$Res>
     $Res Function(_$AnniversaryModelImpl) _then,
   ) : super(_value, _then);
 
+  /// Create a copy of AnniversaryModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -103,25 +125,26 @@ class __$$AnniversaryModelImplCopyWithImpl<$Res>
       _$AnniversaryModelImpl(
         id: null == id
             ? _value.id
-            : id
+            : id // ignore: cast_nullable_to_non_nullable
                   as String,
         title: null == title
             ? _value.title
-            : title
+            : title // ignore: cast_nullable_to_non_nullable
                   as String,
         originalDate: null == originalDate
             ? _value.originalDate
-            : originalDate
+            : originalDate // ignore: cast_nullable_to_non_nullable
                   as String,
         repeatType: null == repeatType
             ? _value.repeatType
-            : repeatType
+            : repeatType // ignore: cast_nullable_to_non_nullable
                   as String,
       ),
     );
   }
 }
 
+/// @nodoc
 @JsonSerializable()
 class _$AnniversaryModelImpl implements _AnniversaryModel {
   const _$AnniversaryModelImpl({
@@ -166,6 +189,8 @@ class _$AnniversaryModelImpl implements _AnniversaryModel {
   int get hashCode =>
       Object.hash(runtimeType, id, title, originalDate, repeatType);
 
+  /// Create a copy of AnniversaryModel
+  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
@@ -201,6 +226,8 @@ abstract class _AnniversaryModel implements AnniversaryModel {
   @override
   String get repeatType;
 
+  /// Create a copy of AnniversaryModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AnniversaryModelImplCopyWith<_$AnniversaryModelImpl> get copyWith =>

@@ -1,4 +1,13 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
 part of 'gift_history_model.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
 
 T _$identity<T>(T value) => value;
 
@@ -10,6 +19,7 @@ GiftHistoryModel _$GiftHistoryModelFromJson(Map<String, dynamic> json) {
   return _GiftHistoryModel.fromJson(json);
 }
 
+/// @nodoc
 mixin _$GiftHistoryModel {
   String get id => throw _privateConstructorUsedError;
   String get recipientName => throw _privateConstructorUsedError;
@@ -21,13 +31,17 @@ mixin _$GiftHistoryModel {
   String? get memo => throw _privateConstructorUsedError;
   String? get purchaseLink => throw _privateConstructorUsedError;
 
+  /// Serializes this GiftHistoryModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
+  /// Create a copy of GiftHistoryModel
+  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   $GiftHistoryModelCopyWith<GiftHistoryModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
+/// @nodoc
 abstract class $GiftHistoryModelCopyWith<$Res> {
   factory $GiftHistoryModelCopyWith(
     GiftHistoryModel value,
@@ -47,13 +61,18 @@ abstract class $GiftHistoryModelCopyWith<$Res> {
   });
 }
 
+/// @nodoc
 class _$GiftHistoryModelCopyWithImpl<$Res, $Val extends GiftHistoryModel>
     implements $GiftHistoryModelCopyWith<$Res> {
   _$GiftHistoryModelCopyWithImpl(this._value, this._then);
 
+  // ignore: unused_field
   final $Val _value;
+  // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GiftHistoryModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -71,39 +90,39 @@ class _$GiftHistoryModelCopyWithImpl<$Res, $Val extends GiftHistoryModel>
       _value.copyWith(
             id: null == id
                 ? _value.id
-                : id
+                : id // ignore: cast_nullable_to_non_nullable
                       as String,
             recipientName: null == recipientName
                 ? _value.recipientName
-                : recipientName
+                : recipientName // ignore: cast_nullable_to_non_nullable
                       as String,
             giftName: null == giftName
                 ? _value.giftName
-                : giftName
+                : giftName // ignore: cast_nullable_to_non_nullable
                       as String,
             date: null == date
                 ? _value.date
-                : date
+                : date // ignore: cast_nullable_to_non_nullable
                       as String,
             price: null == price
                 ? _value.price
-                : price
+                : price // ignore: cast_nullable_to_non_nullable
                       as int,
             satisfaction: null == satisfaction
                 ? _value.satisfaction
-                : satisfaction
+                : satisfaction // ignore: cast_nullable_to_non_nullable
                       as int,
             occasionLabel: freezed == occasionLabel
                 ? _value.occasionLabel
-                : occasionLabel
+                : occasionLabel // ignore: cast_nullable_to_non_nullable
                       as String?,
             memo: freezed == memo
                 ? _value.memo
-                : memo
+                : memo // ignore: cast_nullable_to_non_nullable
                       as String?,
             purchaseLink: freezed == purchaseLink
                 ? _value.purchaseLink
-                : purchaseLink
+                : purchaseLink // ignore: cast_nullable_to_non_nullable
                       as String?,
           )
           as $Val,
@@ -111,6 +130,7 @@ class _$GiftHistoryModelCopyWithImpl<$Res, $Val extends GiftHistoryModel>
   }
 }
 
+/// @nodoc
 abstract class _$$GiftHistoryModelImplCopyWith<$Res>
     implements $GiftHistoryModelCopyWith<$Res> {
   factory _$$GiftHistoryModelImplCopyWith(
@@ -132,6 +152,7 @@ abstract class _$$GiftHistoryModelImplCopyWith<$Res>
   });
 }
 
+/// @nodoc
 class __$$GiftHistoryModelImplCopyWithImpl<$Res>
     extends _$GiftHistoryModelCopyWithImpl<$Res, _$GiftHistoryModelImpl>
     implements _$$GiftHistoryModelImplCopyWith<$Res> {
@@ -140,6 +161,8 @@ class __$$GiftHistoryModelImplCopyWithImpl<$Res>
     $Res Function(_$GiftHistoryModelImpl) _then,
   ) : super(_value, _then);
 
+  /// Create a copy of GiftHistoryModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -157,45 +180,46 @@ class __$$GiftHistoryModelImplCopyWithImpl<$Res>
       _$GiftHistoryModelImpl(
         id: null == id
             ? _value.id
-            : id
+            : id // ignore: cast_nullable_to_non_nullable
                   as String,
         recipientName: null == recipientName
             ? _value.recipientName
-            : recipientName
+            : recipientName // ignore: cast_nullable_to_non_nullable
                   as String,
         giftName: null == giftName
             ? _value.giftName
-            : giftName
+            : giftName // ignore: cast_nullable_to_non_nullable
                   as String,
         date: null == date
             ? _value.date
-            : date
+            : date // ignore: cast_nullable_to_non_nullable
                   as String,
         price: null == price
             ? _value.price
-            : price
+            : price // ignore: cast_nullable_to_non_nullable
                   as int,
         satisfaction: null == satisfaction
             ? _value.satisfaction
-            : satisfaction
+            : satisfaction // ignore: cast_nullable_to_non_nullable
                   as int,
         occasionLabel: freezed == occasionLabel
             ? _value.occasionLabel
-            : occasionLabel
+            : occasionLabel // ignore: cast_nullable_to_non_nullable
                   as String?,
         memo: freezed == memo
             ? _value.memo
-            : memo
+            : memo // ignore: cast_nullable_to_non_nullable
                   as String?,
         purchaseLink: freezed == purchaseLink
             ? _value.purchaseLink
-            : purchaseLink
+            : purchaseLink // ignore: cast_nullable_to_non_nullable
                   as String?,
       ),
     );
   }
 }
 
+/// @nodoc
 @JsonSerializable()
 class _$GiftHistoryModelImpl implements _GiftHistoryModel {
   const _$GiftHistoryModelImpl({
@@ -273,6 +297,8 @@ class _$GiftHistoryModelImpl implements _GiftHistoryModel {
     purchaseLink,
   );
 
+  /// Create a copy of GiftHistoryModel
+  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
@@ -323,6 +349,8 @@ abstract class _GiftHistoryModel implements GiftHistoryModel {
   @override
   String? get purchaseLink;
 
+  /// Create a copy of GiftHistoryModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GiftHistoryModelImplCopyWith<_$GiftHistoryModelImpl> get copyWith =>

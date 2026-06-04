@@ -30,6 +30,13 @@ dependencies:
   intl: ^0.20.2
   url_launcher: ^6.3.0
 
+  # persistence
+  hive_flutter: ^1.1.0
+
+  # notifications
+  flutter_local_notifications: ^18.0.1
+  timezone: ^0.9.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

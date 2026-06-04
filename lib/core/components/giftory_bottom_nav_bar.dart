@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:giftory/constants/color.dart';
 import 'package:giftory/constants/text_style.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class GiftoryBottomNavBar extends StatelessWidget {
   final Widget child;
@@ -30,7 +31,7 @@ class GiftoryBottomNavBar extends StatelessWidget {
       backgroundColor: GiftoryColor.background,
       body: child,
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           border: Border(top: BorderSide(color: GiftoryColor.gray100)),
         ),
         child: SafeArea(
@@ -51,13 +52,13 @@ class GiftoryBottomNavBar extends StatelessWidget {
                         Icon(
                           tab.icon,
                           size: 22,
-                          color: isActive ? GiftoryColor.moca700 : GiftoryColor.gray400,
+                          color: isActive ? context.appColors.c700 : GiftoryColor.gray400,
                         ),
-                        const SizedBox(height: 2),
+                        SizedBox(height: 2),
                         Text(
                           tab.label,
                           style: GiftoryTextStyle.small2.copyWith(
-                            color: isActive ? GiftoryColor.moca700 : GiftoryColor.gray400,
+                            color: isActive ? context.appColors.c700 : GiftoryColor.gray400,
                             fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
                           ),
                         ),

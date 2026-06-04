@@ -8,6 +8,7 @@ import 'package:giftory/features/home/presentation/screens/add_anniversary_scree
 import 'package:giftory/features/home/presentation/widgets/anniversary_list_item.dart';
 import 'package:giftory/features/home/presentation/widgets/home_calendar.dart';
 import 'package:giftory/features/home/presentation/widgets/upcoming_anniversary_item.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -66,7 +67,7 @@ class HomeScreen extends ConsumerWidget {
                             vertical: 8,
                           ),
                           decoration: BoxDecoration(
-                            color: GiftoryColor.moca700,
+                            color: context.appColors.c700,
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
@@ -123,7 +124,7 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                SliverToBoxAdapter(child: _buildDots()),
+                SliverToBoxAdapter(child: _buildDots(context)),
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
@@ -173,7 +174,7 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                SliverToBoxAdapter(child: _buildDots()),
+                SliverToBoxAdapter(child: _buildDots(context)),
                 const SliverToBoxAdapter(child: SizedBox(height: 24)),
               ],
             ),
@@ -199,7 +200,7 @@ class HomeScreen extends ConsumerWidget {
     return eventDays;
   }
 
-  Widget _buildDots() {
+  Widget _buildDots(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Center(
@@ -211,9 +212,9 @@ class HomeScreen extends ConsumerWidget {
               margin: const EdgeInsets.symmetric(horizontal: 3),
               width: 4,
               height: 4,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: GiftoryColor.moca400,
+                color: context.appColors.c400,
               ),
             ),
           ),

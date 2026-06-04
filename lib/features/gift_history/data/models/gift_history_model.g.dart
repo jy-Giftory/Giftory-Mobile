@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'gift_history_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
 _$GiftHistoryModelImpl _$$GiftHistoryModelImplFromJson(
   Map<String, dynamic> json,

@@ -7,6 +7,7 @@ import 'package:giftory/core/components/buttons/giftory_button.dart';
 import 'package:giftory/features/gift_recommendation/presentation/providers/gift_recommendation_provider.dart';
 import 'package:giftory/features/gift_recommendation/presentation/widgets/gift_recommendation_card.dart';
 import 'package:giftory/features/wishlist/presentation/providers/wishlist_provider.dart';
+import 'package:giftory/core/theme/app_theme.dart';
 
 class GiftRecommendationResultScreen extends ConsumerWidget {
   const GiftRecommendationResultScreen({super.key});
@@ -29,12 +30,12 @@ class GiftRecommendationResultScreen extends ConsumerWidget {
                 Text('오류가 발생했습니다.',
                     style: GiftoryTextStyle.body2
                         .copyWith(color: GiftoryColor.gray500)),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Text('$e',
                     style: GiftoryTextStyle.small1
                         .copyWith(color: GiftoryColor.gray400),
                     textAlign: TextAlign.center),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 GiftoryButton(
                   label: '다시 검색',
                   onPressed: () => context.pop(),
@@ -51,7 +52,7 @@ class GiftRecommendationResultScreen extends ConsumerWidget {
             child: Column(
               children: [
                 _buildHeader(context, result.subtitle),
-                _buildSortTabs(ref, result.sortOption),
+                _buildSortTabs(context, ref, result.sortOption),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
@@ -67,9 +68,9 @@ class GiftRecommendationResultScreen extends ConsumerWidget {
                                   .read(wishlistNotifierProvider.notifier)
                                   .toggle(item),
                             )),
-                        const SizedBox(height: 24),
-                        _buildCongratsSection(result.congratsMessage),
-                        const SizedBox(height: 24),
+                        SizedBox(height: 24),
+                        _buildCongratsSection(context, result.congratsMessage),
+                        SizedBox(height: 24),
                       ],
                     ),
                   ),
@@ -89,10 +90,10 @@ class GiftRecommendationResultScreen extends ConsumerWidget {
         children: [
           GestureDetector(
             onTap: () => context.pop(),
-            child: const Icon(Icons.chevron_left,
-                size: 24, color: GiftoryColor.moca950),
+            child: Icon(Icons.chevron_left,
+                size: 24, color: context.appColors.c950),
           ),
-          const SizedBox(width: 4),
+          SizedBox(width: 4),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +111,7 @@ class GiftRecommendationResultScreen extends ConsumerWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: GiftoryColor.moca700,
+                color: context.appColors.c700,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text('다시 검색',
@@ -123,7 +124,7 @@ class GiftRecommendationResultScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSortTabs(WidgetRef ref, SortOption current) {
+  Widget _buildSortTabs(BuildContext context, WidgetRef ref, SortOption current) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
@@ -141,12 +142,12 @@ class GiftRecommendationResultScreen extends ConsumerWidget {
                     horizontal: 14, vertical: 7),
                 decoration: BoxDecoration(
                   color: selected
-                      ? GiftoryColor.moca700
+                      ? context.appColors.c700
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
                     color: selected
-                        ? GiftoryColor.moca700
+                        ? context.appColors.c700
                         : GiftoryColor.gray300,
                   ),
                 ),
@@ -166,33 +167,33 @@ class GiftRecommendationResultScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildCongratsSection(String message) {
+  Widget _buildCongratsSection(BuildContext context, String message) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('축하 메시지 초안',
             style: GiftoryTextStyle.body2
                 .copyWith(fontWeight: FontWeight.w700)),
-        const SizedBox(height: 4),
+        SizedBox(height: 4),
         Text(
           '선물과 함께 전달할 메시지 초안 추천입니다.\n그대로 작성해 드리고, 직접 마음을 담아 메시지를 적어보세요.',
           style: GiftoryTextStyle.small1
               .copyWith(color: GiftoryColor.gray500),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: GiftoryColor.moca50,
+            color: context.appColors.c50,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: GiftoryColor.moca100),
+            border: Border.all(color: context.appColors.c100),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(message, style: GiftoryTextStyle.small1),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Text(
                 '조안을 눌러 직접 작성해보세요',
                 style: GiftoryTextStyle.small2
