@@ -9,15 +9,15 @@ import 'package:giftory/features/gift_history/domain/usecases/get_gift_histories
 
 part 'gift_history_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 GiftHistoryDatasource giftHistoryDatasource(Ref ref) =>
     GiftHistoryDatasource();
 
-@riverpod
+@Riverpod(keepAlive: true)
 GiftHistoryRepositoryImpl giftHistoryRepository(Ref ref) =>
     GiftHistoryRepositoryImpl(ref.watch(giftHistoryDatasourceProvider));
 
-@riverpod
+@Riverpod(keepAlive: true)
 class GiftHistoryNotifier extends _$GiftHistoryNotifier {
   @override
   Future<List<GiftHistory>> build() async {

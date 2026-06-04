@@ -53,8 +53,12 @@ class GiftHistoryDetailScreen extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(history.giftName,
-                            style: GiftoryTextStyle.header1),
+                        Expanded(
+                          child: Text(history.giftName,
+                              style: GiftoryTextStyle.header1,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1),
+                        ),
                         Text(history.formattedPrice,
                             style: GiftoryTextStyle.header1),
                       ],
@@ -83,11 +87,32 @@ class GiftHistoryDetailScreen extends ConsumerWidget {
                     ],
                     const SizedBox(height: 24),
                     GestureDetector(
-                      onTap: () {
-                        ref
-                            .read(giftHistoryNotifierProvider.notifier)
-                            .delete(history.id);
-                        context.pop();
+                      onTap: () async {
+                        final confirmed = await showDialog<bool>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('기록 삭제'),
+                            content: const Text('이 기록을 삭제하시겠습니까?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(false),
+                                child: const Text('취소'),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(true),
+                                child: const Text('삭제'),
+                              ),
+                            ],
+                          ),
+                        );
+                        if (confirmed == true) {
+                          ref
+                              .read(giftHistoryNotifierProvider.notifier)
+                              .delete(history.id);
+                          if (context.mounted) {
+                            context.pop();
+                          }
+                        }
                       },
                       child: Text(
                         '기록 삭제',

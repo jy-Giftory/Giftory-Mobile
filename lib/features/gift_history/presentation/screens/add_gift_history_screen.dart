@@ -29,6 +29,7 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
 
   int _satisfaction = 3;
   String? _selectedOccasion;
+  bool _isSaving = false;
 
   final _now = DateTime.now();
   late int _year;
@@ -91,14 +92,28 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
   }
 
   Future<void> _onSave() async {
+    if (_isSaving) return;
+
     if (_recipientController.text.trim().isEmpty ||
         _giftController.text.trim().isEmpty) {
       return;
     }
 
-    final price = int.tryParse(
-            _priceController.text.replaceAll(',', '').replaceAll(' ', '')) ??
-        0;
+    final cleanedPrice = _priceController.text.replaceAll(',', '').replaceAll(' ', '').trim();
+    if (cleanedPrice.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('가격을 입력해주세요')),
+      );
+      return;
+    }
+
+    final price = int.tryParse(cleanedPrice);
+    if (price == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('올바른 가격을 입력해주세요')),
+      );
+      return;
+    }
 
     final occasionLabel = _selectedOccasion == '직접입력'
         ? (_customOccasionController.text.trim().isEmpty
@@ -122,9 +137,16 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
           : _linkController.text.trim(),
     );
 
-    await ref.read(giftHistoryNotifierProvider.notifier).add(history);
-    if (!mounted) return;
-    context.pop();
+    setState(() => _isSaving = true);
+    try {
+      await ref.read(giftHistoryNotifierProvider.notifier).add(history);
+      if (!mounted) return;
+      context.pop();
+    } finally {
+      if (mounted) {
+        setState(() => _isSaving = false);
+      }
+    }
   }
 
   @override
@@ -309,7 +331,10 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
             Padding(
               padding: EdgeInsets.fromLTRB(
                   20, 12, 20, MediaQuery.of(context).padding.bottom + 16),
-              child: GiftoryButton(label: '기록하기', onPressed: _onSave),
+              child: GiftoryButton(
+                label: '기록하기',
+                onPressed: _isSaving ? null : _onSave,
+              ),
             ),
           ],
         ),

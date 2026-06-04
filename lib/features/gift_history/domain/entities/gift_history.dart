@@ -11,7 +11,7 @@ class GiftHistory {
   final String? memo;
   final String? purchaseLink;
 
-  const GiftHistory({
+  GiftHistory({
     required this.id,
     required this.recipientName,
     required this.giftName,
@@ -21,7 +21,23 @@ class GiftHistory {
     this.occasionLabel,
     this.memo,
     this.purchaseLink,
-  });
+  }) {
+    if (id.isEmpty) {
+      throw ArgumentError('id must not be empty');
+    }
+    if (recipientName.isEmpty) {
+      throw ArgumentError('recipientName must not be empty');
+    }
+    if (giftName.isEmpty) {
+      throw ArgumentError('giftName must not be empty');
+    }
+    if (price < 0) {
+      throw ArgumentError('price must be >= 0');
+    }
+    if (satisfaction < 0 || satisfaction > 5) {
+      throw ArgumentError('satisfaction must be within 0..5');
+    }
+  }
 
   String get formattedPrice => NumberFormat('#,###').format(price);
   String get formattedDate => DateFormat('yyyy.MM.dd').format(date);

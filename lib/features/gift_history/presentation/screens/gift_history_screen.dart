@@ -145,9 +145,13 @@ class _HistoryCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(history.giftName,
-                    style: GiftoryTextStyle.body2
-                        .copyWith(fontWeight: FontWeight.w700)),
+                Expanded(
+                  child: Text(history.giftName,
+                      style: GiftoryTextStyle.body2
+                          .copyWith(fontWeight: FontWeight.w700),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1),
+                ),
                 Text(history.formattedPrice,
                     style: GiftoryTextStyle.body2
                         .copyWith(fontWeight: FontWeight.w700)),
