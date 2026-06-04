@@ -1,14 +1,21 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:giftory/features/home/domain/entities/anniversary.dart';
 import 'package:giftory/features/settings/domain/entities/app_settings.dart';
 
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await NotificationService.instance.showFcmNotification(message);
+}
+
 class NotificationService {
   NotificationService._();
   static final NotificationService instance = NotificationService._();
 
   final _plugin = FlutterLocalNotificationsPlugin();
+  final _fcm = FirebaseMessaging.instance;
 
   static const _channelId = 'giftory_channel';
   static const _channelName = '기념일 알림';
@@ -26,9 +33,19 @@ class NotificationService {
       android: android,
       iOS: ios,
     ));
+
+    FirebaseMessaging.onMessage.listen((message) {
+      showFcmNotification(message);
+    });
   }
 
   Future<void> requestPermission() async {
+    await _fcm.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
     await _plugin
         .resolvePlatformSpecificImplementation<
             IOSFlutterLocalNotificationsPlugin>()
@@ -37,6 +54,28 @@ class NotificationService {
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
         ?.requestNotificationsPermission();
+  }
+
+  Future<String?> getFcmToken() => _fcm.getToken();
+
+  Future<void> showFcmNotification(RemoteMessage message) async {
+    final notification = message.notification;
+    if (notification == null) return;
+
+    await _plugin.show(
+      message.hashCode,
+      notification.title,
+      notification.body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          _channelId,
+          _channelName,
+          importance: Importance.high,
+          priority: Priority.high,
+        ),
+        iOS: const DarwinNotificationDetails(),
+      ),
+    );
   }
 
   Future<void> scheduleForAnniversary(

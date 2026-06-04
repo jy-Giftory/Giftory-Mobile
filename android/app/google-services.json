@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "655421343990",
+    "project_id": "giftory-da547",
+    "storage_bucket": "giftory-da547.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655421343990:android:04eacb1cca921ca41cc4d7",
+        "android_client_info": {
+          "package_name": "com.example.giftory"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzXN68jGzQF-bPJWf3AFvAKMWIMJ9dteY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
