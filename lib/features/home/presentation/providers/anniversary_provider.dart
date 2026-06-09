@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:giftory/core/services/notification_service.dart';
+import 'package:giftory/core/services/widget_service.dart';
 import 'package:giftory/features/home/data/datasources/anniversary_datasource.dart';
 import 'package:giftory/features/home/data/repositories/anniversary_repository_impl.dart';
 import 'package:giftory/features/home/domain/entities/anniversary.dart';
@@ -24,7 +25,9 @@ class AnniversaryNotifier extends _$AnniversaryNotifier {
   @override
   Future<List<Anniversary>> build() async {
     final repo = ref.watch(anniversaryRepositoryProvider);
-    return GetAnniversariesUsecase(repo).call();
+    final list = await GetAnniversariesUsecase(repo).call();
+    WidgetService.instance.updateUpcoming(list);
+    return list;
   }
 
   Future<void> add(Anniversary anniversary) async {
@@ -45,10 +48,12 @@ class AnniversaryNotifier extends _$AnniversaryNotifier {
 
   Future<void> delete(String id) async {
     final current = state.valueOrNull ?? [];
-    state = AsyncData(current.where((a) => a.id != id).toList());
+    final updated = current.where((a) => a.id != id).toList();
+    state = AsyncData(updated);
     final repo = ref.read(anniversaryRepositoryProvider);
     await DeleteAnniversaryUsecase(repo).call(id);
     await NotificationService.instance.cancelForAnniversary(id);
+    await WidgetService.instance.updateUpcoming(updated);
   }
 }
 

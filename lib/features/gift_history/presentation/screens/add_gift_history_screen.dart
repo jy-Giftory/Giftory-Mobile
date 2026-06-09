@@ -11,15 +11,22 @@ import 'package:giftory/core/components/text_form_field/text_form_field.dart';
 import 'package:giftory/features/gift_history/domain/entities/gift_history.dart';
 import 'package:giftory/features/gift_history/presentation/providers/gift_history_provider.dart';
 import 'package:giftory/features/gift_history/presentation/widgets/star_rating_widget.dart';
+import 'package:giftory/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:giftory/core/theme/app_theme.dart';
 
 class AddGiftHistoryScreen extends ConsumerStatefulWidget {
   final String? prefillGiftName;
   final int? prefillPrice;
+  final String? prefillMemo;
+  final String? prefillLink;
+  final String? fromWishlistId;
   const AddGiftHistoryScreen({
     super.key,
     this.prefillGiftName,
     this.prefillPrice,
+    this.prefillMemo,
+    this.prefillLink,
+    this.fromWishlistId,
   });
 
   @override
@@ -66,6 +73,12 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
     }
     if (widget.prefillPrice != null) {
       _priceController.text = widget.prefillPrice.toString();
+    }
+    if (widget.prefillMemo != null) {
+      _memoController.text = widget.prefillMemo!;
+    }
+    if (widget.prefillLink != null) {
+      _linkController.text = widget.prefillLink!;
     }
   }
 
@@ -150,6 +163,11 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
     setState(() => _isSaving = true);
     try {
       await ref.read(giftHistoryNotifierProvider.notifier).add(history);
+      if (widget.fromWishlistId != null) {
+        ref
+            .read(wishlistNotifierProvider.notifier)
+            .remove(widget.fromWishlistId!);
+      }
       if (!mounted) return;
       context.pop();
     } finally {

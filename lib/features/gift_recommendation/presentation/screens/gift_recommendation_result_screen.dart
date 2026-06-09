@@ -5,6 +5,7 @@ import 'package:giftory/constants/color.dart';
 import 'package:giftory/constants/text_style.dart';
 import 'package:giftory/core/components/buttons/giftory_button.dart';
 import 'package:giftory/features/gift_recommendation/presentation/providers/gift_recommendation_provider.dart';
+import 'package:giftory/features/gift_recommendation/presentation/widgets/congrats_message_section.dart';
 import 'package:giftory/features/gift_recommendation/presentation/widgets/gift_recommendation_card.dart';
 import 'package:giftory/features/wishlist/presentation/providers/wishlist_provider.dart';
 import 'package:giftory/core/theme/app_theme.dart';
@@ -68,9 +69,14 @@ class GiftRecommendationResultScreen extends ConsumerWidget {
                                   .read(wishlistNotifierProvider.notifier)
                                   .toggle(item),
                             )),
-                        SizedBox(height: 24),
-                        _buildCongratsSection(context, result.congratsMessage),
-                        SizedBox(height: 24),
+                        const SizedBox(height: 24),
+                        CongratsMessageSection(
+                          message: result.congratsMessage,
+                          onSaved: (msg) => ref
+                              .read(giftRecommendationResultProvider.notifier)
+                              .updateCongratsMessage(msg),
+                        ),
+                        const SizedBox(height: 24),
                       ],
                     ),
                   ),
@@ -167,42 +173,4 @@ class GiftRecommendationResultScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildCongratsSection(BuildContext context, String message) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('축하 메시지 초안',
-            style: GiftoryTextStyle.body2
-                .copyWith(fontWeight: FontWeight.w700)),
-        SizedBox(height: 4),
-        Text(
-          '선물과 함께 전달할 메시지 초안 추천입니다.\n그대로 작성해 드리고, 직접 마음을 담아 메시지를 적어보세요.',
-          style: GiftoryTextStyle.small1
-              .copyWith(color: GiftoryColor.gray500),
-        ),
-        SizedBox(height: 12),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: context.appColors.c50,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: context.appColors.c100),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(message, style: GiftoryTextStyle.small1),
-              SizedBox(height: 8),
-              Text(
-                '조안을 눌러 직접 작성해보세요',
-                style: GiftoryTextStyle.small2
-                    .copyWith(color: GiftoryColor.gray400),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
 }

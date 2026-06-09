@@ -58,6 +58,9 @@ final appRouter = GoRouter(
                 return AddGiftHistoryScreen(
                   prefillGiftName: extra?['giftName'] as String?,
                   prefillPrice: extra?['price'] as int?,
+                  prefillMemo: extra?['memo'] as String?,
+                  prefillLink: extra?['link'] as String?,
+                  fromWishlistId: extra?['wishlistId'] as String?,
                 );
               },
             ),

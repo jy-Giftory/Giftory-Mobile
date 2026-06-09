@@ -256,4 +256,15 @@ class GiftRecommendationResult extends _$GiftRecommendationResult {
       sortOption: current.sortOption,
     ));
   }
+
+  void updateCongratsMessage(String message) {
+    final current = state.valueOrNull;
+    if (current == null) return;
+    state = AsyncValue.data(GiftRecommendationResultData(
+      subtitle: current.subtitle,
+      items: current.items,
+      congratsMessage: message,
+      sortOption: current.sortOption,
+    ));
+  }
 }
