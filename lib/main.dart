@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:giftory/app.dart';
 import 'package:giftory/core/services/notification_service.dart';
+import 'package:giftory/core/services/widget_service.dart';
 import 'package:giftory/firebase_options.dart';
 
 void main() async {
@@ -24,6 +25,8 @@ void main() async {
 
   await NotificationService.instance.init();
   await NotificationService.instance.requestPermission();
+
+  await WidgetService.instance.init();
 
   runApp(
     const ProviderScope(
