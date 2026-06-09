@@ -4,6 +4,7 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - "build/**"
   errors:
     invalid_use_of_internal_member: ignore
     invalid_annotation_target: ignore
