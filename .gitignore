@@ -33,6 +33,9 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Environment config (local only — do not commit)
+lib/core/config/api_config.dart
+
 # Symbolication related
 app.*.symbols
 
