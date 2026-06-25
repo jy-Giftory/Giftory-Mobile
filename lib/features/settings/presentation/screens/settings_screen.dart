@@ -243,10 +243,12 @@ class SettingsScreen extends ConsumerWidget {
                     .copyWith(color: GiftoryColor.gray500)),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.of(ctx).pop();
-              ref.read(authNotifierProvider.notifier).logout();
-              context.go('/onboarding');
+              try {
+                await ref.read(authNotifierProvider.notifier).logout();
+              } catch (_) {}
+              if (context.mounted) context.go('/onboarding');
             },
             child: Text('확인',
                 style: GiftoryTextStyle.small1
@@ -278,10 +280,12 @@ class SettingsScreen extends ConsumerWidget {
                     .copyWith(color: GiftoryColor.gray500)),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.of(ctx).pop();
-              ref.read(authNotifierProvider.notifier).logout();
-              context.go('/onboarding');
+              try {
+                await ref.read(authNotifierProvider.notifier).deleteAccount();
+              } catch (_) {}
+              if (context.mounted) context.go('/onboarding');
             },
             child: Text('탈퇴하기',
                 style: GiftoryTextStyle.small1

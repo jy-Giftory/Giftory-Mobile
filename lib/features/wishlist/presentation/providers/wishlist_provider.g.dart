@@ -1,17 +1,10 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'wishlist_provider.dart';
 
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
+String _$wishlistNotifierHash() => r'78f884a092ca23da4af919824510a630bc4b1214';
 
-String _$wishlistNotifierHash() => r'264a57bf8f49e9d304c7b8548edf7f682a4d40c6';
-
-/// See also [WishlistNotifier].
 @ProviderFor(WishlistNotifier)
 final wishlistNotifierProvider =
-    AutoDisposeNotifierProvider<
+    AutoDisposeAsyncNotifierProvider<
       WishlistNotifier,
       List<GiftRecommendation>
     >.internal(
@@ -24,6 +17,4 @@ final wishlistNotifierProvider =
       allTransitiveDependencies: null,
     );
 
-typedef _$WishlistNotifier = AutoDisposeNotifier<List<GiftRecommendation>>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+typedef _$WishlistNotifier = AutoDisposeAsyncNotifier<List<GiftRecommendation>>;

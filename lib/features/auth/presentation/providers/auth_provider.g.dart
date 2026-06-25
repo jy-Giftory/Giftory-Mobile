@@ -1,14 +1,7 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'auth_provider.dart';
 
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
+String _$authDatasourceHash() => r'1b9df3466b2caa384ac21986fdf37e4ef61d2699';
 
-String _$authDatasourceHash() => r'2dd2d17b0ff5252e0fe2690a177b879c5a94e6e6';
-
-/// See also [authDatasource].
 @ProviderFor(authDatasource)
 final authDatasourceProvider = AutoDisposeProvider<AuthDatasource>.internal(
   authDatasource,
@@ -21,11 +14,9 @@ final authDatasourceProvider = AutoDisposeProvider<AuthDatasource>.internal(
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
 typedef AuthDatasourceRef = AutoDisposeProviderRef<AuthDatasource>;
 String _$authRepositoryHash() => r'b0d40bb302b7630903de7f8b186a6b21f036ebc5';
 
-/// See also [authRepository].
 @ProviderFor(authRepository)
 final authRepositoryProvider = AutoDisposeProvider<AuthRepositoryImpl>.internal(
   authRepository,
@@ -38,11 +29,9 @@ final authRepositoryProvider = AutoDisposeProvider<AuthRepositoryImpl>.internal(
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
 typedef AuthRepositoryRef = AutoDisposeProviderRef<AuthRepositoryImpl>;
-String _$authNotifierHash() => r'901c106bc60b0e7163fb296df747889598a7604d';
+String _$authNotifierHash() => r'9a850482b99667d1c4f5bc828b3ae678581a5c1d';
 
-/// See also [AuthNotifier].
 @ProviderFor(AuthNotifier)
 final authNotifierProvider =
     AutoDisposeNotifierProvider<AuthNotifier, User?>.internal(
@@ -56,5 +45,3 @@ final authNotifierProvider =
     );
 
 typedef _$AuthNotifier = AutoDisposeNotifier<User?>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

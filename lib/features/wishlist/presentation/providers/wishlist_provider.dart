@@ -1,45 +1,63 @@
-import 'dart:convert';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:giftory/core/network/dio_client.dart';
 import 'package:giftory/features/gift_recommendation/domain/entities/gift_recommendation.dart';
 
 part 'wishlist_provider.g.dart';
 
 @riverpod
 class WishlistNotifier extends _$WishlistNotifier {
-  static const _boxKey = 'wishlist';
-  static const _dataKey = 'data';
-
-  Box get _box => Hive.box(_boxKey);
+  Dio get _dio => ref.read(dioProvider);
 
   @override
-  List<GiftRecommendation> build() {
-    final raw = _box.get(_dataKey, defaultValue: '[]') as String;
-    final list = jsonDecode(raw) as List;
-    return list
-        .map((e) => GiftRecommendation.fromJson(e as Map<String, dynamic>))
+  Future<List<GiftRecommendation>> build() async {
+    final res = await _dio.get('/wishlists');
+    final list = res.data['wishlists'] as List;
+    return list.map(_fromJson).toList();
+  }
+
+  Future<void> add(GiftRecommendation item) async {
+    await _dio.post('/wishlists', data: {
+      'giftName': item.title,
+      'price': item.price,
+      'reason': item.reason,
+      'tip': item.deliveryTip,
+      'purchaseUrl': item.naverShoppingUrl,
+    });
+    ref.invalidateSelf();
+    await future;
+  }
+
+  Future<void> removeByServerId(String id) async {
+    await _dio.delete('/wishlists/$id');
+    ref.invalidateSelf();
+    await future;
+  }
+
+  Future<void> toggleByContent(GiftRecommendation item) async {
+    final current = state.valueOrNull ?? [];
+    final matched = current
+        .where((w) => w.title == item.title && w.price == item.price)
         .toList();
+    if (matched.isNotEmpty) {
+      await removeByServerId(matched.first.id);
+    } else {
+      await add(item);
+    }
   }
 
-  void toggle(GiftRecommendation item) {
-    final exists = state.any((i) => i.id == item.id);
-    state = exists
-        ? state.where((i) => i.id != item.id).toList()
-        : [...state, item];
-    _persist();
+  bool containsContent(GiftRecommendation item) {
+    final current = state.valueOrNull ?? [];
+    return current.any((w) => w.title == item.title && w.price == item.price);
   }
 
-  void remove(String id) {
-    state = state.where((i) => i.id != id).toList();
-    _persist();
-  }
-
-  bool contains(String id) => state.any((i) => i.id == id);
-
-  void _persist() {
-    _box.put(
-      _dataKey,
-      jsonEncode(state.map((i) => i.toJson()).toList()),
-    );
-  }
+  GiftRecommendation _fromJson(dynamic json) => GiftRecommendation(
+        id: json['id'].toString(),
+        title: json['giftName'] as String,
+        price: json['price'] as int,
+        reason: json['reason'] as String,
+        deliveryTip: json['tip'] as String,
+        searchQuery: json['giftName'] as String,
+        isInWishlist: true,
+      );
 }

@@ -12,6 +12,7 @@ import 'package:giftory/features/gift_recommendation/domain/entities/interest_ca
 import 'package:giftory/features/gift_recommendation/domain/entities/occasion_type.dart';
 import 'package:giftory/features/gift_recommendation/domain/entities/personality_type.dart';
 import 'package:giftory/features/gift_recommendation/presentation/providers/gift_recommendation_provider.dart';
+import 'package:giftory/features/gift_recommendation/presentation/providers/recommendation_history_provider.dart';
 import 'package:giftory/features/gift_recommendation/presentation/widgets/interest_category_section.dart';
 import 'package:giftory/core/theme/app_theme.dart';
 
@@ -58,7 +59,38 @@ class _GiftRecommendationInputScreenState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('AI 선물 추천', style: GiftoryTextStyle.header1),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text('AI 선물 추천',
+                              style: GiftoryTextStyle.header1),
+                        ),
+                        GestureDetector(
+                          onTap: () =>
+                              context.push('/gift-recommend/history'),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                  color: context.appColors.c300),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.history,
+                                    size: 14, color: context.appColors.c700),
+                                const SizedBox(width: 4),
+                                Text('지난 추천',
+                                    style: GiftoryTextStyle.small1.copyWith(
+                                        color: context.appColors.c700)),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 4),
                     Text(
                       '받는 사람의 정보를 입력하면 AI가 맞춤형 선물을 추천해드려요!\nAI의 추천은 완벽하지 않을 수 있으며, 실수를 할 수 있습니다.',
@@ -278,9 +310,31 @@ class _GiftRecommendationInputScreenState
                 onPressed: form.isValid
                     ? () async {
                         final router = GoRouter.of(context);
+                        final request = form.toRequest();
                         await ref
                             .read(giftRecommendationResultProvider.notifier)
-                            .fetch(form.toRequest());
+                            .fetch(request);
+                        final data = ref
+                            .read(giftRecommendationResultProvider)
+                            .valueOrNull;
+                        if (data != null) {
+                          try {
+                            await ref
+                                .read(recommendationHistoryNotifierProvider
+                                    .notifier)
+                                .save(
+                                  recipient: form.recipient,
+                                  budgetMin: form.minBudget,
+                                  budgetMax: form.maxBudget,
+                                  items: data.items,
+                                  congratsMessage: data.congratsMessage,
+                                  detailedInterests:
+                                      request.allInterests.join(', '),
+                                  memo: form.memo,
+                                );
+                          } catch (_) {
+                          }
+                        }
                         if (!mounted) return;
                         router.push('/gift-recommend/result');
                       }

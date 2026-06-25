@@ -20,7 +20,7 @@ class OnboardingScreen extends StatelessWidget {
               const Spacer(),
               Image.asset(
                 'assets/images/app_logo.png',
-                width: 180,
+                width: 300,
                 errorBuilder: (context, error, stackTrace) => Text(
                   'Giftory',
                   style: GiftoryTextStyle.header1.copyWith(
@@ -29,7 +29,6 @@ class OnboardingScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
               Text(
                 'AI 선물 추천 및 기념일 비서',
                 style: GiftoryTextStyle.body2.copyWith(

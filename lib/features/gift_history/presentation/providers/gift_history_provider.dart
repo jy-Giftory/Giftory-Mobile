@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:giftory/core/network/dio_client.dart';
 import 'package:giftory/features/gift_history/data/datasources/gift_history_datasource.dart';
 import 'package:giftory/features/gift_history/data/repositories/gift_history_repository_impl.dart';
 import 'package:giftory/features/gift_history/domain/entities/gift_history.dart';
@@ -11,7 +12,7 @@ part 'gift_history_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 GiftHistoryDatasource giftHistoryDatasource(Ref ref) =>
-    GiftHistoryDatasource();
+    GiftHistoryDatasource(ref.watch(dioProvider));
 
 @Riverpod(keepAlive: true)
 GiftHistoryRepositoryImpl giftHistoryRepository(Ref ref) =>

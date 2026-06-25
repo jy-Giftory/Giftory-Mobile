@@ -164,9 +164,9 @@ class _AddGiftHistoryScreenState extends ConsumerState<AddGiftHistoryScreen> {
     try {
       await ref.read(giftHistoryNotifierProvider.notifier).add(history);
       if (widget.fromWishlistId != null) {
-        ref
+        await ref
             .read(wishlistNotifierProvider.notifier)
-            .remove(widget.fromWishlistId!);
+            .removeByServerId(widget.fromWishlistId!);
       }
       if (!mounted) return;
       context.pop();

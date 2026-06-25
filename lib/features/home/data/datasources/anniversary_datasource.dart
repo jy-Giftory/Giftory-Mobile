@@ -1,42 +1,55 @@
-import 'dart:convert';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:dio/dio.dart';
 import 'package:giftory/features/home/data/models/anniversary_model.dart';
 
 class AnniversaryDatasource {
-  static const _boxKey = 'anniversaries';
-  static const _dataKey = 'data';
+  final Dio _dio;
+  const AnniversaryDatasource(this._dio);
 
-  Box get _box => Hive.box(_boxKey);
+  static const _toCycle = {
+    'yearly': 'YEARLY',
+    'monthly': 'MONTHLY',
+    'biMonthly': 'BIOMONTHLY',
+  };
+  static const _fromCycle = {
+    'YEARLY': 'yearly',
+    'MONTHLY': 'monthly',
+    'BIOMONTHLY': 'biMonthly',
+  };
 
   Future<List<AnniversaryModel>> getAll() async {
-    final raw = _box.get(_dataKey, defaultValue: '[]') as String;
-    final list = jsonDecode(raw) as List;
-    return list.map((e) => AnniversaryModel.fromJson(e as Map<String, dynamic>)).toList();
+    final res = await _dio.get('/anniverseries');
+    final list = res.data as List;
+    return list.map(_fromJson).toList();
   }
 
   Future<void> add(AnniversaryModel model) async {
-    final list = await getAll();
-    list.add(model);
-    await _persist(list);
+    await _dio.post('/anniverseries', data: _toJson(model));
   }
 
   Future<void> delete(String id) async {
-    final list = await getAll();
-    list.removeWhere((m) => m.id == id);
-    await _persist(list);
+    await _dio.delete('/anniverseries/$id');
   }
 
   Future<void> update(AnniversaryModel model) async {
-    final list = await getAll();
-    final index = list.indexWhere((m) => m.id == model.id);
-    if (index != -1) list[index] = model;
-    await _persist(list);
+    await _dio.put('/anniverseries/${model.id}', data: _toJson(model));
   }
 
-  Future<void> _persist(List<AnniversaryModel> list) async {
-    await _box.put(
-      _dataKey,
-      jsonEncode(list.map((m) => m.toJson()).toList()),
+  AnniversaryModel _fromJson(dynamic json) {
+    final date = json['date'] as String; // YYYY-MM-DD
+    return AnniversaryModel(
+      id: json['id'].toString(),
+      title: json['title'] as String,
+      originalDate: DateTime.parse(date).toIso8601String(),
+      repeatType: _fromCycle[json['repeatCycle']] ?? 'yearly',
     );
+  }
+
+  Map<String, dynamic> _toJson(AnniversaryModel model) {
+    final dateOnly = model.originalDate.split('T').first;
+    return {
+      'title': model.title,
+      'date': dateOnly,
+      'repeatCycle': _toCycle[model.repeatType] ?? 'YEARLY',
+    };
   }
 }

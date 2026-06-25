@@ -1,40 +1,48 @@
-import 'dart:convert';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:dio/dio.dart';
 import 'package:giftory/features/gift_history/data/models/gift_history_model.dart';
 
 class GiftHistoryDatasource {
-  static const _boxKey = 'gift_histories';
-  static const _dataKey = 'data';
-
-  Box get _box => Hive.box(_boxKey);
+  final Dio _dio;
+  const GiftHistoryDatasource(this._dio);
 
   Future<List<GiftHistoryModel>> getAll() async {
-    final raw = _box.get(_dataKey, defaultValue: '[]') as String;
-    final list = jsonDecode(raw) as List;
-    return list.map((e) => GiftHistoryModel.fromJson(e as Map<String, dynamic>)).toList();
+    final res = await _dio.get('/histories', queryParameters: {'limit': 100});
+    final list = res.data['histories'] as List;
+    return list.map(_fromJson).toList();
   }
 
   Future<void> add(GiftHistoryModel model) async {
-    final list = await getAll();
-    final index = list.indexWhere((m) => m.id == model.id);
-    if (index != -1) {
-      list[index] = model;
-    } else {
-      list.add(model);
-    }
-    await _persist(list);
+    await _dio.post('/histories', data: _toJson(model));
   }
 
   Future<void> delete(String id) async {
-    final list = await getAll();
-    list.removeWhere((m) => m.id == id);
-    await _persist(list);
+    await _dio.delete('/histories/$id');
   }
 
-  Future<void> _persist(List<GiftHistoryModel> list) async {
-    await _box.put(
-      _dataKey,
-      jsonEncode(list.map((m) => m.toJson()).toList()),
+  GiftHistoryModel _fromJson(dynamic json) {
+    return GiftHistoryModel(
+      id: json['id'].toString(),
+      recipientName: json['recipient'] as String,
+      giftName: json['giftName'] as String,
+      date: DateTime.parse(json['date'] as String).toIso8601String(),
+      price: json['price'] as int,
+      satisfaction: json['rating'] as int,
+      occasionLabel: json['occasion'] as String?,
+      memo: json['memo'] as String?,
+      purchaseLink: json['purchaseUrl'] as String?,
     );
+  }
+
+  Map<String, dynamic> _toJson(GiftHistoryModel model) {
+    return {
+      'recipient': model.recipientName,
+      'date': model.date.split('T').first,
+      'giftName': model.giftName,
+      'price': model.price,
+      'rating': model.satisfaction,
+      'occasion': model.occasionLabel ?? '',
+      'memo': model.memo ?? '',
+      'purchaseUrl': model.purchaseLink ?? '',
+    };
   }
 }

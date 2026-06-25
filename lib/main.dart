@@ -17,9 +17,7 @@ void main() async {
 
   await Hive.initFlutter();
   await Future.wait([
-    Hive.openBox('anniversaries'),
-    Hive.openBox('gift_histories'),
-    Hive.openBox('wishlist'),
+    Hive.openBox('auth'),
     Hive.openBox('app_settings'),
   ]);
 

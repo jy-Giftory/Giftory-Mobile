@@ -1,10 +1,14 @@
 import 'package:go_router/go_router.dart';
+import 'package:giftory/core/network/token_storage.dart';
 import 'package:giftory/features/auth/presentation/screens/onboarding_screen.dart';
 import 'package:giftory/features/auth/presentation/screens/login_screen.dart';
 import 'package:giftory/features/auth/presentation/screens/register_screen.dart';
 import 'package:giftory/features/home/presentation/screens/home_screen.dart';
+import 'package:giftory/features/gift_recommendation/domain/entities/recommendation_record.dart';
 import 'package:giftory/features/gift_recommendation/presentation/screens/gift_recommendation_input_screen.dart';
 import 'package:giftory/features/gift_recommendation/presentation/screens/gift_recommendation_result_screen.dart';
+import 'package:giftory/features/gift_recommendation/presentation/screens/recommendation_history_screen.dart';
+import 'package:giftory/features/gift_recommendation/presentation/screens/recommendation_history_detail_screen.dart';
 import 'package:giftory/features/gift_history/domain/entities/gift_history.dart';
 import 'package:giftory/features/gift_history/presentation/screens/gift_history_screen.dart';
 import 'package:giftory/features/gift_history/presentation/screens/add_gift_history_screen.dart';
@@ -14,7 +18,8 @@ import 'package:giftory/features/settings/presentation/screens/settings_screen.d
 import 'package:giftory/core/components/giftory_bottom_nav_bar.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/onboarding',
+  initialLocation:
+      TokenStorage.instance.isLoggedIn ? '/home' : '/onboarding',
   routes: [
     GoRoute(
       path: '/onboarding',
@@ -43,6 +48,20 @@ final appRouter = GoRouter(
               path: 'result',
               builder: (context, state) =>
                   const GiftRecommendationResultScreen(),
+            ),
+            GoRoute(
+              path: 'history',
+              builder: (context, state) =>
+                  const RecommendationHistoryScreen(),
+              routes: [
+                GoRoute(
+                  path: 'detail',
+                  builder: (context, state) {
+                    final record = state.extra as RecommendationRecord;
+                    return RecommendationHistoryDetailScreen(record: record);
+                  },
+                ),
+              ],
             ),
           ],
         ),

@@ -8,17 +8,37 @@ class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl(this._datasource);
 
   @override
-  Future<User> login({required String email, required String password}) async {
+  Future<void> sendVerification(String email) =>
+      _datasource.sendVerification(email);
+
+  @override
+  Future<User> signup({
+    required String email,
+    required String verificationCode,
+    required String password,
+    required String passwordConfirm,
+  }) async {
+    final model = await _datasource.signup(
+      email: email,
+      verificationCode: verificationCode,
+      password: password,
+      passwordConfirm: passwordConfirm,
+    );
+    return model.toEntity();
+  }
+
+  @override
+  Future<User> login({
+    required String email,
+    required String password,
+  }) async {
     final model = await _datasource.login(email: email, password: password);
     return model.toEntity();
   }
 
   @override
-  Future<User> register({required String email, required String password}) async {
-    final model = await _datasource.register(email: email, password: password);
-    return model.toEntity();
-  }
+  Future<void> logout() => _datasource.logout();
 
   @override
-  Future<void> logout() async {}
+  Future<void> deleteAccount() => _datasource.deleteAccount();
 }

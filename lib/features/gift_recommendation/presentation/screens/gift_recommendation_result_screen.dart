@@ -16,7 +16,7 @@ class GiftRecommendationResultScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final resultAsync = ref.watch(giftRecommendationResultProvider);
-    final wishlist = ref.watch(wishlistNotifierProvider);
+    final wishlist = ref.watch(wishlistNotifierProvider).valueOrNull ?? [];
 
     return Scaffold(
       backgroundColor: GiftoryColor.background,
@@ -63,11 +63,12 @@ class GiftRecommendationResultScreen extends ConsumerWidget {
                         ...result.sortedItems.map((item) =>
                             GiftRecommendationCard(
                               item: item,
-                              isInWishlist: wishlist
-                                  .any((w) => w.id == item.id),
+                              isInWishlist: wishlist.any((w) =>
+                                  w.title == item.title &&
+                                  w.price == item.price),
                               onWishlistToggle: () => ref
                                   .read(wishlistNotifierProvider.notifier)
-                                  .toggle(item),
+                                  .toggleByContent(item),
                             )),
                         const SizedBox(height: 24),
                         CongratsMessageSection(

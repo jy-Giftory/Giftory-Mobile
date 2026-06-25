@@ -1,14 +1,7 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'settings_provider.dart';
 
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
+String _$settingsNotifierHash() => r'55fb83b8f319000746363fde54595eee60c9f6be';
 
-String _$settingsNotifierHash() => r'17842886a1c3b1e2cb8adbbabf4ab851c330cf88';
-
-/// See also [SettingsNotifier].
 @ProviderFor(SettingsNotifier)
 final settingsNotifierProvider =
     AutoDisposeNotifierProvider<SettingsNotifier, AppSettings>.internal(
@@ -22,5 +15,3 @@ final settingsNotifierProvider =
     );
 
 typedef _$SettingsNotifier = AutoDisposeNotifier<AppSettings>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

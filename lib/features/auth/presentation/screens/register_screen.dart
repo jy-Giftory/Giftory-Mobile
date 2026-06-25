@@ -22,6 +22,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _passwordConfirmController = TextEditingController();
   bool _isLoading = false;
+  bool _isSendingCode = false;
   bool _obscurePassword = true;
   bool _obscurePasswordConfirm = true;
 
@@ -34,8 +35,35 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     super.dispose();
   }
 
+  Future<void> _onSendVerification() async {
+    final email = _emailController.text.trim();
+    if (email.isEmpty || !email.contains('@')) {
+      GiftorySnackBar.show(context, '올바른 이메일을 입력해주세요.');
+      return;
+    }
+    setState(() => _isSendingCode = true);
+    try {
+      await ref
+          .read(authNotifierProvider.notifier)
+          .sendVerification(email);
+      if (mounted) {
+        GiftorySnackBar.show(context, '인증코드를 메일로 보냈어요.');
+      }
+    } catch (e) {
+      if (mounted) {
+        GiftorySnackBar.show(context, '인증코드 발송에 실패했습니다');
+      }
+    } finally {
+      if (mounted) setState(() => _isSendingCode = false);
+    }
+  }
+
   Future<void> _onRegister() async {
     final password = _passwordController.text;
+    if (_verificationController.text.trim().isEmpty) {
+      GiftorySnackBar.show(context, '이메일 인증코드를 입력해주세요.');
+      return;
+    }
     if (password.length < 8 ||
         !RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) {
       GiftorySnackBar.show(context, '비밀번호는 특수문자를 포함하여 8자리 이상이어야 합니다.');
@@ -47,21 +75,24 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     }
     setState(() => _isLoading = true);
     try {
-      await ref
-          .read(authNotifierProvider.notifier)
-          .register(
+      await ref.read(authNotifierProvider.notifier).signup(
             email: _emailController.text.trim(),
+            verificationCode: _verificationController.text.trim(),
             password: _passwordController.text,
+            passwordConfirm: _passwordConfirmController.text,
           );
       if (mounted) context.go('/home');
     } catch (e) {
       if (mounted) {
-        GiftorySnackBar.show(context, '회원가입에 실패했습니다. 잠시 후 다시 시도해주세요.');
+        GiftorySnackBar.show(context, '회원가입에 실패했습니다: ${_msg(e)}');
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
+
+  String _msg(Object e) =>
+      e.toString().replaceFirst('예외상황 발생: ', '');
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +122,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   SizedBox(width: 12),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: _isSendingCode ? null : _onSendVerification,
                     child: Text(
-                      '인증하기',
+                      _isSendingCode ? '발송중…' : '인증하기',
                       style: GiftoryTextStyle.small1.copyWith(
                         color: context.appColors.c700,
                         decoration: TextDecoration.underline,

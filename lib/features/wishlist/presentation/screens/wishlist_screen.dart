@@ -68,7 +68,7 @@ class _WishlistScreenState extends ConsumerState<WishlistScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final items = ref.watch(wishlistNotifierProvider);
+    final items = ref.watch(wishlistNotifierProvider).valueOrNull ?? [];
     final filtered = _applyFilter(items);
 
     return Scaffold(
@@ -147,7 +147,7 @@ class _WishlistScreenState extends ConsumerState<WishlistScreen> {
                             item: filtered[index],
                             onRemove: () => ref
                                 .read(wishlistNotifierProvider.notifier)
-                                .remove(filtered[index].id),
+                                .removeByServerId(filtered[index].id),
                             onPurchased: () =>
                                 _goToHistory(context, filtered[index]),
                           ),

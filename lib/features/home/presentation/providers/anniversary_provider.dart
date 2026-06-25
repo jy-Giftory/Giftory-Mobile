@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:giftory/core/network/dio_client.dart';
 import 'package:giftory/core/services/notification_service.dart';
 import 'package:giftory/core/services/widget_service.dart';
 import 'package:giftory/features/home/data/datasources/anniversary_datasource.dart';
@@ -14,7 +15,8 @@ import 'package:giftory/features/settings/presentation/providers/settings_provid
 part 'anniversary_provider.g.dart';
 
 @riverpod
-AnniversaryDatasource anniversaryDatasource(Ref ref) => AnniversaryDatasource();
+AnniversaryDatasource anniversaryDatasource(Ref ref) =>
+    AnniversaryDatasource(ref.watch(dioProvider));
 
 @riverpod
 AnniversaryRepositoryImpl anniversaryRepository(Ref ref) =>
